@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.pku.pojo.DataCenter" table="t_data_center">
+		<id name="id" type="java.lang.Integer">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="dataCenterName" type="java.lang.String">
+			<column name="dataCenterName" length="200" not-null="true"
+				unique="true" />
+		</property>
+		<property name="dataCenterCapacity" type="java.lang.String">
+			<column name="dataCenterCapacity" length="200" />
+		</property>
+		<property name="ipAddr" type="java.lang.String">
+			<column name="ipAddr" length="100" />
+		</property>
+		<property name="dataCenterServiceCapacity" type="java.lang.String">
+			<column name="dataCenterServiceCapacity" length="200" />
+		</property>
+		<property name="priority" type="java.lang.String">
+			<column name="priority" length="50" />
+		</property>
+		<property name="state" type="java.lang.String">
+			<column name="state" length="50">
+			</column>
+		</property>
+		<property name="createTime" type="java.util.Date">
+			<column name="createTime" length="0">
+			</column>
+		</property>
+						<property name="phyAddr" type="string">
+			<column name="phyAddr" length="100" not-null="true"/>
+			</property>
+					<property name="comment" type="string">
+			<column name="cComment" length="500">
+			</column>
+		</property>
+	</class>
+</hibernate-mapping>
