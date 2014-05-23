@@ -149,8 +149,22 @@
 	<script type="text/javascript" src="../assets/CanvasXpress/js/canvasXpress.min.js"></script>
 	<script src="../assets/js/lufylegend.min.js" type="text/javascript"></script>   
 	<script type="text/javascript" src="../assets/js/ScriptEngine.js" ></script>	
-	<script>
 	
+	<script>
+	  window.onbeforeunload = function() {   
+            var n = window.event.screenX - window.screenLeft;   
+            var b = n > document.documentElement.scrollWidth-20;   
+            if(b && window.event.clientY < 0 || window.event.altKey){   
+                if(webSocket) {
+                	webSocket.close();
+                } 此处放你想要操作的代码 
+            }else{
+                if(webSocket) {
+                	webSocket.close();
+                } 
+            }
+        }  
+
 	var logContainer = document.getElementById('showLog');
 	logContainer.scrollTop = 0;
 	var insertLog = insert;
@@ -258,7 +272,7 @@
 			    type:"post",
 				enable:true,
 				contentType:"application/json",
-				url:"/monitor/api/v1/ztree/ztreenodes"
+				//url:"/monitor/api/v1/ztree/ztreenodes"
 			},
 			callback:{
 				asyncSuccess: zTreeOnAsyncSuccess,
@@ -309,15 +323,20 @@
 	var tmp = new Object();
 	function findDataAccess(st, rt) {
 			 var se = new ScriptEngine();
-			 se.setClass("com.edu.cn.handler.request.OperateRequest");
+			 se.setClass("pku.edu.cn。nodeoperation");
 			 se.setMethod("getNodeInfo");
 			 var re = se.invoke(st, rt);
-			 //document.getElementById("sidebar-statu").innerHTML= re;
 			 return re;
 		} 
+		var wsUrl;
+		if (window.location.protocol == 'https:') {  
+	        wsUrl = 'wss://' + window.location.host + '/monitor/websocket';
+		} else {
+	        wsUrl = 'ws://' + window.location.host + '/monitor/websocket';
+		}
 		var webSocket = 
-			new WebSocket('ws://localhost:8080/datamanagesys/websocket');
-
+			new WebSocket(wsUrl);
+		
 		webSocket.onerror = function(event) {
 			onError(event)
 		};

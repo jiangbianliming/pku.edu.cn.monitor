@@ -1,6 +1,7 @@
 package pku.edu.cn.rest;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
@@ -24,10 +26,9 @@ import net.sf.json.JSONArray;
 @Consumes("application/json")
 @Produces("application/json")
 public class Ztree {
+	
 	@Context
 	HttpServletRequest request;
-	@Context
-	HttpServletResponse response;
 	
 	@POST
 	@Path("/ztreenodes")
@@ -36,24 +37,24 @@ public class Ztree {
 		MetaData meta = new MetaData();
 		ResultSet rs = meta.getMetadata();
 		List<ZtreeNode> list = new ArrayList<ZtreeNode>(); 
-		ZtreeNode rootNode = new ZtreeNode("root","xx","数据中心服务",true,"root","../assets1/ico/fy.png");
+		ZtreeNode rootNode = new ZtreeNode("root","xx","数据中心服务",true,"root","../assets/ico/fy.png");
 		Map<String,Integer> nodeTree = new HashMap<String,Integer>();
 		list.add(rootNode);
 		try {
 			while(rs.next()){
 				ZtreeNode node = new ZtreeNode();
 				if(rs.getString("upIpAddr")!=null){
-					if(rs.getString("nodeKind").equals("0")){	
+					if("0".equals(rs.getString("nodeKind"))){	
 						node.setName("用户系统");
 						node.setOpen(false);
 						node.setStdname("用户系统");
-						node.setIcon("../assets1/img/treeicon/yhxt.PNG");
+						node.setIcon("../assets/img/treeicon/yhxt.PNG");
 					}
 					else{
 						node.setName("数据访问节点");
 						node.setOpen(true);
 						node.setStdname("数据访问节点");
-						node.setIcon("../assets1/img/treeicon/sjfwjd.PNG");
+						node.setIcon("../assets/img/treeicon/sjfwjd.PNG");
 					}
 					if(nodeTree.containsKey(rs.getString("upIpAddr"))){
 						int tmp = (int)nodeTree.get(rs.getString("upIpAddr"));					
@@ -82,7 +83,7 @@ public class Ztree {
 					List<String> iplist = meta.getDataCenterIpList();
 //					InitZnodeInfo info = new InitZnodeInfo();
 //					String mainCenter = info.getLeader(iplist);
-					if(rs.getString("ipAddr").equals("")){
+					if("".equals(rs.getString("ipAddr"))){
 						node.setName("");
 					}
 					else{
@@ -92,7 +93,7 @@ public class Ztree {
 					node.setOpen(true);
 					node.setId(rs.getString("ipAddr"));
 					node.setpId("root");
-					node.setIcon("../assets1/img/treeicon/sjzx.PNG");
+					node.setIcon("../assets/img/treeicon/sjzx.PNG");
 					list.add(node);
 				}	
 			}
@@ -114,5 +115,33 @@ public class Ztree {
 		}
 		JSONArray jsonObject = JSONArray.fromObject(list);
 		return jsonObject.toString();
+	}
+	
+	@POST
+	@Path("/ztreenode")
+	public String getTreeNode(){
+		 String name = request.getParameter("class");
+	        String method = request.getParameter("method");
+	        String args = request.getParameter("args");
+	        System.out.println(method);
+	        if(name != null && method != null){
+	            try{
+	                Class cls = Class.forName(name);
+	                Object[] parames = !args.equals("") ? args.split(";") : null;
+	                Object obj = cls.newInstance();
+	                Method[] methods = cls.getMethods();      
+	                for(Method m:methods){
+	                    System.out.println(m.getName());
+	                    if(m.getName().equals(method)){
+	                        Object result = parames != null ? m.invoke(obj,parames) : m.invoke(obj); 
+	                        return result.toString();
+	                    }
+	                }    
+	            }
+	            catch(Exception e){
+	                e.printStackTrace();
+	            }  
+	        }
+	        return null;
 	}
 }

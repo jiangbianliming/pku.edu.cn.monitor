@@ -14,6 +14,7 @@ import java.util.Map;
 
 
 
+
 import pku.edu.cn.Entity.Edges;
 import pku.edu.cn.Entity.Node;
 import pku.edu.cn.Entity.NodesScale;
@@ -32,13 +33,13 @@ public class JsonHelper {
 			while(reslut.next()){
 				Node node = new Node();
 				node.setId(reslut.getString("ipAddr"));
-				if(reslut.getString("nodeKind").equals("0")){
+				if("".equals(reslut.getString("nodeKind"))){
 					node.setName("用户系统");
 					node.setShape("sphere");
 					node.setColor("rgb(0,255,0)");
 					node.setSize("1");
 				}
-				else if(reslut.getString("nodeKind").equals("1")){
+				else if("1".equals(reslut.getString("nodeKind"))){
 					node.setName("数据访问结点");
 					node.setShape("square");
 					node.setColor("rgb(255,0,0)");
@@ -48,7 +49,7 @@ public class JsonHelper {
 					node.setName("数据中心");
 					node.setShape("star");
 					node.setColor("rgb(255,255,0)");
-					if(reslut.getString("ipAddr").equals("")){
+					if("".equals(reslut.getString("ipAddr"))){
 						node.setSize("3");
 					}
 					else{
@@ -113,21 +114,19 @@ public class JsonHelper {
 		nodesType1.setColor("rgb(255,255,0)");
 		nodesType1.setText("数据中心");
 		nodesType1.setId("nodesLegendId1");
+		
 		NodesType nodesType2 = new NodesType();
 		nodesType2.setShape("square");
 		nodesType2.setColor("rgb(255,0,0)");
 		nodesType2.setText("数据访问节点");
 		nodesType2.setId("nodesLegendId2");
-//		NodesType nodesType3 = new NodesType();
-//		nodesType3.setShape("star");
-//		nodesType3.setColor("rgb(255,255,0)");
-//		nodesType3.setText("ABCD");
-//		nodesType3.setId("nodesLegendId3");
+		
 		NodesType nodesType4 = new NodesType();
 		nodesType4.setShape("sphere");
 		nodesType4.setColor("rgb(0,255,0)");
 		nodesType4.setText("用户系统");
 		nodesType4.setId("nodesLegendId4");
+		
 		NodesList.add(nodesType1);
 		NodesList.add(nodesType2);
 //		NodesList.add(nodesType3);
@@ -191,6 +190,16 @@ public class JsonHelper {
 		map.put("addEdge", edge);
 		JSONObject jsonObject = JSONObject.fromObject(map);
 		return jsonObject.toString();	
+	}
+	public static String getJsonData(){
+		JsonHelper help = new JsonHelper();
+		MetaData meta = new MetaData();
+		ResultSet rs= meta.getMetadata();
+		ResultSet rs1 =meta.getMetadata(); 
+		List<Node> list = help.getNodesList(rs);
+		List<Edges> listedge = help.getEdgesList(rs1);
+		Map map = help.getLegend();
+		return help.getDataJson(list, listedge, map).toString();
 	}
 
 }

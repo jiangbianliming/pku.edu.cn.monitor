@@ -29,18 +29,11 @@ function ScriptEngine(){
             	else{
             		parames+=arguments[i]+';';
             	} 
-            	//console.log(arguments[i]);
             }
         }
-        /*if (argument1.length > 0) {
-        	parames1=argument1;
-        }
-        if (argument2.length > 0) {
-        	parames2=argument2;
-        }*/
         $.ajax( {
             type : "POST",
-            url : getRootPath() + "/ztree",
+            url : getRootPath() + "/ztree/ztreenode",
             cache : false,
             async : false,
             data : name + "&" + method + "&args=" + parames,
