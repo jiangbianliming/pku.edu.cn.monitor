@@ -33,7 +33,7 @@ function ScriptEngine(){
         }
         $.ajax( {
             type : "POST",
-            url : getRootPath() + "/ztree/ztreenode",
+            url : getRootPath() + "/api/v1/ztree/ztreenode",
             cache : false,
             async : false,
             data : name + "&" + method + "&args=" + parames,

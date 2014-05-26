@@ -10,10 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,15 +22,14 @@ import pku.edu.cn.Entity.ZtreeNode;
 import pku.edu.cn.conn.MetaData;
 import net.sf.json.JSONArray;
 
-@Consumes("application/json")
-@Produces("application/json")
+
 public class Ztree {
 	
-	@Context
-	HttpServletRequest request;
 	
 	@POST
 	@Path("/ztreenodes")
+	@Consumes("application/json")
+	@Produces("application/json")
 	public String getZtree() throws IOException{
 		
 		MetaData meta = new MetaData();
@@ -119,10 +117,15 @@ public class Ztree {
 	
 	@POST
 	@Path("/ztreenode")
-	public String getTreeNode(){
-		 String name = request.getParameter("class");
-	        String method = request.getParameter("method");
-	        String args = request.getParameter("args");
+	@Consumes("application/x-www-form-urlencoded")
+	@Produces("application/json")
+	public String getTreeNode(@FormParam("class") String name,@FormParam("method") String method,@FormParam("args") String args){
+			System.out.println(name);
+			System.out.println(method);
+			System.out.println(args);
+//			String name = request.getParameter("class");
+//	        String method = request.getParameter("method");
+//	        String args = request.getParameter("args");
 	        System.out.println(method);
 	        if(name != null && method != null){
 	            try{

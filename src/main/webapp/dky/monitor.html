@@ -157,7 +157,7 @@
             if(b && window.event.clientY < 0 || window.event.altKey){   
                 if(webSocket) {
                 	webSocket.close();
-                } 此处放你想要操作的代码 
+                } 
             }else{
                 if(webSocket) {
                 	webSocket.close();
@@ -272,7 +272,7 @@
 			    type:"post",
 				enable:true,
 				contentType:"application/json",
-				//url:"/monitor/api/v1/ztree/ztreenodes"
+				url:"/monitor/api/v1/ztree/ztreenodes"
 			},
 			callback:{
 				asyncSuccess: zTreeOnAsyncSuccess,
@@ -323,7 +323,7 @@
 	var tmp = new Object();
 	function findDataAccess(st, rt) {
 			 var se = new ScriptEngine();
-			 se.setClass("pku.edu.cn。nodeoperation");
+			 se.setClass("pku.edu.cn.nodeoperation.NodeOperation");
 			 se.setMethod("getNodeInfo");
 			 var re = se.invoke(st, rt);
 			 return re;
@@ -347,7 +347,9 @@
 		webSocket.onmessage = function(event) {
 			onMessage(event)
 		};
-		
+		webSocket.onclose = function(event){
+			console.log("websocket closed");
+		}
 		var graphic = document.getElementById('graphic');
 		var maincanvas = document.getElementById('main');
 		maincanvas.width = graphic.scrollWidth;
