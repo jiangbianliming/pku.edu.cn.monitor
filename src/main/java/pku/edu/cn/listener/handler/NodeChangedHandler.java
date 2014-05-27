@@ -11,7 +11,7 @@ import pku.edu.cn.listener.ServerListenerAdapter;
 
 
 
-public class ServerHandler extends ServerListenerAdapter {
+public class NodeChangedHandler extends ServerListenerAdapter {
 
 
 	@Override

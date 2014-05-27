@@ -4,6 +4,8 @@ package pku.edu.cn.listener;
 
 import java.util.Vector;
 
+import pku.edu.cn.Entity.MetadataNode;
+
 
 public class Notifier {
 	private Vector listeners = null;
@@ -31,11 +33,11 @@ public class Notifier {
 			((ServerListener) listeners.get(i)).nodeChanged(nodeJson);
 		}
 	}
-//	public void fireAddNode(MetadataNode metadataNode){
-//		for(int i =0;i<listeners.size();i++){
-//			((ServerListener) listeners.get(i)).AddNode(metadataNode);
-//		}
-//	}
+	public void fireAddNode(MetadataNode metadataNode){
+		for(int i =0;i<listeners.size();i++){
+			((ServerListener) listeners.get(i)).AddNode(metadataNode);
+		}
+	}
 	public void fireMainCenterChanged(String ip){
 		for(int i =0;i<listeners.size();i++){
 			((ServerListener) listeners.get(i)).mainCenterChanged(ip);
@@ -45,7 +47,5 @@ public class Notifier {
 		for(int i =0;i<listeners.size();i++){
 			((ServerListener) listeners.get(i)).Animation(json);
 		}
-	}
-		
-	
+	}	
 }

@@ -28,8 +28,7 @@ public class WebSocket {
 		synchronized(list){
 		      for(Session client : list){
 		    	  if(client.isOpen()){
-		    		  client.getBasicRemote().sendText(JsonHelper.getJsonData());
-		    		 // client.getBasicRemote().sendBinary(JsonHelper.getJsonData());		    	
+		    		  client.getBasicRemote().sendText(JsonHelper.getJsonData());	    	
 		    	  }
 		      }
 		    }

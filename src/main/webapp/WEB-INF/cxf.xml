@@ -8,6 +8,12 @@
         <jaxrs:serviceBeans>
             <ref bean="ztreeRest"/>                    
         </jaxrs:serviceBeans>
-    </jaxrs:server>
+ </jaxrs:server>
+  <jaxrs:server id="netWork" address="/network">
+        <jaxrs:serviceBeans>
+            <ref bean="networkRest"/>                    
+        </jaxrs:serviceBeans>
+ </jaxrs:server>
     <bean id="ztreeRest" class="pku.edu.cn.rest.Ztree"/>
+    <bean id="networkRest" class="pku.edu.cn.rest.NetWork"/>
 </beans>
