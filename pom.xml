@@ -75,11 +75,6 @@
 			<artifactId>zookeeper</artifactId>
 			<version>3.4.6</version>
 	</dependency>
-	<dependency>
-  		<groupId>ch.ethz.ganymed</groupId>
-  		<artifactId>ganymed-ssh2</artifactId>
-  		<version>build210</version>
-	</dependency>
   </dependencies>
   <build>
     <finalName>monitor</finalName>

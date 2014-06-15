@@ -1,20 +1,11 @@
-package pku.edu.cn.json;
+package pku.edu.cn.nodeoperation;
 
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
-
-
-
-
-
-
 import pku.edu.cn.Entity.Edges;
 import pku.edu.cn.Entity.Node;
 import pku.edu.cn.Entity.NodesScale;
@@ -22,42 +13,43 @@ import pku.edu.cn.Entity.NodesType;
 import pku.edu.cn.conn.MetaData;
 import net.sf.json.JSONObject;
 
-public class JsonHelper {
-	public List getNodesList(ResultSet reslut){
+public class GraphOperation {
+	private static final int MAINCENTER=1;
+	private static final String USERSYS="0";
+	private static final String ACCESSNODE = "1";
+//	private static final String DATACENTER = "2";
+	MetaData meta = new MetaData();
+	public List getNodesList(ResultSet result){
 		List list = new ArrayList();
 		try {
-			MetaData meta = new MetaData();
 			List<String> iplist = meta.getDataCenterIpList();
-//			InitZnodeInfo info = new InitZnodeInfo();
-//			String mainCenter = info.getLeader(iplist);
-			while(reslut.next()){
+			while(result.next()){
 				Node node = new Node();
-				node.setId(reslut.getString("ipAddr"));
-				if("".equals(reslut.getString("nodeKind"))){
-					node.setName("用户系统");
+				node.setId(result.getString("t_ipAddr"));
+				if(USERSYS.equals(result.getString("nodeKind"))){
+					node.setName("用户系统("+result.getString("t_phyAddr")+")");
 					node.setShape("sphere");
 					node.setColor("rgb(0,255,0)");
 					node.setSize("1");
 				}
-				else if("1".equals(reslut.getString("nodeKind"))){
-					node.setName("数据访问结点");
+				else if(ACCESSNODE.equals(result.getString("nodeKind"))){
+					node.setName("数据访问结点("+result.getString("t_phyAddr")+")");
 					node.setShape("square");
 					node.setColor("rgb(255,0,0)");
 					node.setSize("1");
 				}
 				else{
-					node.setName("数据中心");
+					node.setName("数据中心("+result.getString("t_phyAddr")+")");
 					node.setShape("star");
 					node.setColor("rgb(255,255,0)");
-					if("".equals(reslut.getString("ipAddr"))){
+					if(result.getInt("maincenter")==MAINCENTER){
 						node.setSize("3");
 					}
 					else{
 						node.setSize("1");
-					}
-//					node.setSize("1");
+					}				
 				}
-				node.setGroup(reslut.getString("nodeKind"));
+				node.setGroup(result.getString("nodeKind"));
 				list.add(node);
 			}
 		} catch (SQLException e) {
@@ -73,7 +65,7 @@ public class JsonHelper {
 			while(reslut.next()){
 				if(reslut.getString("upIpAddr")!=null){
 					Edges edge = new Edges();
-					edge.setId1(reslut.getString("ipAddr"));
+					edge.setId1(reslut.getString("t_ipAddr"));
 					edge.setId2(reslut.getString("upIpAddr"));
 					edge.setColor("rgb(0,255,0)");
 					edge.setType("line");
@@ -81,7 +73,7 @@ public class JsonHelper {
 				}
 				else{
 					Edges edge = new Edges();
-					edge.setId1(reslut.getString("ipAddr"));
+					edge.setId1(reslut.getString("t_ipAddr"));
 					edge.setColor("rgb(0,255,0)");
 					edge.setType("line");
 					centerList.add(edge);
@@ -121,16 +113,15 @@ public class JsonHelper {
 		nodesType2.setText("数据访问节点");
 		nodesType2.setId("nodesLegendId2");
 		
-		NodesType nodesType4 = new NodesType();
-		nodesType4.setShape("sphere");
-		nodesType4.setColor("rgb(0,255,0)");
-		nodesType4.setText("用户系统");
-		nodesType4.setId("nodesLegendId4");
+		NodesType nodesType3 = new NodesType();
+		nodesType3.setShape("sphere");
+		nodesType3.setColor("rgb(0,255,0)");
+		nodesType3.setText("用户系统");
+		nodesType3.setId("nodesLegendId4");
 		
 		NodesList.add(nodesType1);
 		NodesList.add(nodesType2);
-//		NodesList.add(nodesType3);
-		NodesList.add(nodesType4);
+		NodesList.add(nodesType3);
 		map.put("nodes", NodesList);
 		NodesScale nodesScale = new NodesScale();
 		nodesScale.setX(-500);
@@ -192,7 +183,7 @@ public class JsonHelper {
 		return jsonObject.toString();	
 	}
 	public static String getJsonData(){
-		JsonHelper help = new JsonHelper();
+		GraphOperation help = new GraphOperation();
 		MetaData meta = new MetaData();
 		ResultSet rs= meta.getMetadata();
 		ResultSet rs1 =meta.getMetadata(); 

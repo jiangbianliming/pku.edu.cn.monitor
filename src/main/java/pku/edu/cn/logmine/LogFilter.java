@@ -1,4 +1,4 @@
-package com.server.logmine;
+package pku.edu.cn.logmine;
 
 public class LogFilter {
 	public LogFilter(){

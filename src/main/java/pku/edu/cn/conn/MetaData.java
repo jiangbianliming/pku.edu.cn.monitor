@@ -1,7 +1,6 @@
 package pku.edu.cn.conn;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,92 +8,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MetaData {
-	   static String url = "jdbc:mysql://localhost:3306/mydb" ;    
-	   static String username = "root" ;   
-	   static String password = "root" ; 
-	   ResultSet rs;
-	   private static Connection conn=null;
-	   public MetaData(){
-		   MetaData.conn = MetaData.getConnection();
-	   }
-	   public static Connection getConnection(){
-		  
-		   try {	   
-			Class.forName("com.mysql.jdbc.Driver");
-			conn= DriverManager.getConnection(url, username, password);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+	public ResultSet getMetadata() {
+		String sql = "select * from meta_view";
+		Connection conn = DbConnection.getConnection();
+		Statement stat;
+		ResultSet rs = null;
+		try {
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  
-		   return conn;   
-	   }
-	   public ResultSet getMetadata(){
-		   String sql = "select * from t_metadata_node";
-		   try {
-			Class.forName("com.mysql.jdbc.Driver");  
-			Connection conn = DriverManager.getConnection(url, username, password);
-			Statement stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-		   } catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		   return rs;
-	   }
-//	   public String getCenterName(String ip){
-//		   String sql = "select * from t_center_node where IpAddr ="'"+ip+"';
-//	   }
-	   public ResultSet getCenterMetadata(){
-		   String sql = "select * from t_metadata_node where nodeKind ='2'";
-		   try {
-			Class.forName("com.mysql.jdbc.Driver");  
-			Connection conn = DriverManager.getConnection(url, username, password);
-			Statement stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-		   } catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		   return rs;
-		   
-	   }
-	   public List<String> getDataCenterIpList(){
-		   List<String> list = new ArrayList<String>();
-		   String sql ="select ipAddr from t_metadata_node where nodeKind ='2' ";
-		   Statement stmt;
+		return rs;
+	}
+	
+	public ResultSet getCenterMetadata() {
+		String sql = "select * from meta_view where nodeKind ='2'";
+		Connection conn = DbConnection.getConnection();
+		ResultSet rs = null;
 		try {
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			while(rs.next()){
+			Statement stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+
+	public List<String> getDataCenterIpList() {
+		List<String> list = new ArrayList<String>();
+		String sql = "select t_ipAddr from meta_view where nodeKind ='2' ";
+		Connection conn = DbConnection.getConnection();
+		try {
+			Statement stmt= conn.createStatement();;
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
 				list.add(rs.getString(1));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		   return list;
- 	   }
-	   public static void main(String args[]){
-		   MetaData meta = new MetaData();
-//		   ResultSet rs = meta.getMetadata();
-//		   try {
-//			while(rs.next()){
-//				System.out.print(rs.getString("ipAddr")+"     ");   
-//				System.out.println(rs.getString("upIpAddr")); 
-//			}
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		   meta.getDataCenterIpList();
-	   }
+		return list;
+	}
+
+	public static void main(String args[]) {
+		MetaData meta = new MetaData();
+		System.out.println(meta.getDataCenterIpList().size());	
+	}
 }

@@ -11,11 +11,13 @@ import net.sf.json.JSONObject;
 import pku.edu.cn.Entity.DataAccessNode;
 import pku.edu.cn.Entity.DataCenterNode;
 import pku.edu.cn.Entity.UserSysNode;
+import pku.edu.cn.conn.DbConnection;
 import pku.edu.cn.conn.MetaData;
 
 public class NodeOperation {
 	public String getNodeInfo(String id, String group) {
 		if(group.equals("0")){
+			System.out.println("wwwwwwwww"+group);
 			UserSysNode node = getUserSysNode(id);
 			JSONObject jsonObject = JSONObject.fromObject(node); 
 			return jsonObject.toString();
@@ -35,7 +37,7 @@ public class NodeOperation {
 	private static UserSysNode getUserSysNode(String id) {
 		// TODO Auto-generated method stub
 		String sql ="select * from t_user_system where ipAddr='"+id+"'";
-		Connection conn = MetaData.getConnection();
+		Connection conn = DbConnection.getConnection();
 		UserSysNode node =new UserSysNode();
 		Statement stat;
 		ResultSet rs;
@@ -60,7 +62,7 @@ public class NodeOperation {
 	private static DataAccessNode getAccessNode(String id) {
 		String sql ="select * from t_data_access_node where ipAddr='"+id+"'";
 		String sqlChild = "select * from t_metadata_node where upIpAddr='"+id+"'";
-		Connection conn = MetaData.getConnection();
+		Connection conn = DbConnection.getConnection();
 		DataAccessNode node = new DataAccessNode();
 		Statement stat;
 		ResultSet rs;
@@ -95,7 +97,7 @@ public class NodeOperation {
 	private static DataCenterNode getDataCenetrNode(String id) {
 		// TODO Auto-generated method stub
 		String sql = "select * from  t_data_center where ipAddr='"+id+"'";
-		Connection conn = MetaData.getConnection();
+		Connection conn = DbConnection.getConnection();
 		DataCenterNode node = new DataCenterNode();
 		try {
 			Statement stat = conn.createStatement();

@@ -15,5 +15,5 @@
         </jaxrs:serviceBeans>
  </jaxrs:server>
     <bean id="ztreeRest" class="pku.edu.cn.rest.Ztree"/>
-    <bean id="networkRest" class="pku.edu.cn.rest.NetWork"/>
+    <bean id="networkRest" class="pku.edu.cn.rest.NetWorkGraph"/>
 </beans>

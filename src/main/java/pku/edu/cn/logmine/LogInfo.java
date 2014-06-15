@@ -1,4 +1,4 @@
-package com.server.logmine;
+package pku.edu.cn.logmine;
 
 public class LogInfo {
 	private String localIp;

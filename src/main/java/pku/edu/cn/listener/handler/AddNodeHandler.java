@@ -7,16 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.websocket.Session;
 
 import pku.edu.cn.Entity.Edges;
 import pku.edu.cn.Entity.MetadataNode;
 import pku.edu.cn.Entity.Node;
 import pku.edu.cn.conn.MetaData;
-import pku.edu.cn.json.JsonHelper;
 import pku.edu.cn.listener.ServerListenerAdapter;
-
-import com.sever.websockets.WebSocket;
+import pku.edu.cn.nodeoperation.GraphOperation;
+import pku.edu.cn.websockets.WebSocket;
 
 public class AddNodeHandler extends ServerListenerAdapter{
 
@@ -24,12 +24,12 @@ public class AddNodeHandler extends ServerListenerAdapter{
 	public void AddNode(MetadataNode metadataNode) {
 		// TODO Auto-generated method stub
 		if(WebSocket.list.size()==0){
-			System.out.println("û����");
+			System.out.println("");
 			return;
 		}
 		ArrayList<Session> delSession = new ArrayList<Session>();
 		delSession.clear();
-		JsonHelper help = new JsonHelper();
+		GraphOperation help = new GraphOperation();
 		String json =null;
 		Node node = new Node();
 		node.setId(metadataNode.getIpAddr());

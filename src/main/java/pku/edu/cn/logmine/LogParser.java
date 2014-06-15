@@ -1,4 +1,4 @@
-package com.server.logmine;
+package pku.edu.cn.logmine;
 
 import java.util.HashMap;
 import java.util.Map;

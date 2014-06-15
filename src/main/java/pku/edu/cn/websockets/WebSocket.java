@@ -1,4 +1,4 @@
-package com.sever.websockets;
+package pku.edu.cn.websockets;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,13 +6,12 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.websocket.OnClose;
-import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import pku.edu.cn.json.JsonHelper;
+import pku.edu.cn.nodeoperation.GraphOperation;
 
 @ServerEndpoint("/websocket")
 public class WebSocket {
@@ -28,7 +27,7 @@ public class WebSocket {
 		synchronized(list){
 		      for(Session client : list){
 		    	  if(client.isOpen()){
-		    		  client.getBasicRemote().sendText(JsonHelper.getJsonData());	    	
+		    		  client.getBasicRemote().sendText(GraphOperation.getJsonData());	    	
 		    	  }
 		      }
 		    }
