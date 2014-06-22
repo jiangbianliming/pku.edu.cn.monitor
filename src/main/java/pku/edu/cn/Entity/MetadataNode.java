@@ -70,4 +70,9 @@ public class MetadataNode {
 	}
 	private Date createTime;
 	private String status;
+	public String toString(){
+		return "author:"+this.author+" dataKind:"+this.dataKind+" ipAddr:"+this.ipAddr
+				+" nodeKind:"+this.nodeKind+" phyAddr:"+this.phyAddr+" status:"+this.status
+				+" upIpaddr:"+this.upIpaddr;			
+	}
 }

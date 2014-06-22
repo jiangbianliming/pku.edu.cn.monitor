@@ -52,7 +52,8 @@ public class NetWorkGraph {
 		meta.setPhyAddr(phyAddr);
 		meta.setStatus("0");
 //		meta.setUpIpaddr(null);
-		Notifier.getNotifier().fireAddNode(meta);
+		System.out.println(meta.toString());
+//		Notifier.getNotifier().fireAddNode(meta);
 		return true;
 	}
 	@POST
@@ -81,7 +82,8 @@ public class NetWorkGraph {
 		meta.setPhyAddr(phyAddr);
 		meta.setStatus("0");
 		meta.setUpIpaddr(upperDataCenter);
-		Notifier.getNotifier().fireAddNode(meta);
+		System.out.println(meta.toString());
+//		Notifier.getNotifier().fireAddNode(meta);
 		return true;
 	}
 	@POST
@@ -108,7 +110,8 @@ public class NetWorkGraph {
 		meta.setPhyAddr(phyAddr);
 		meta.setStatus("0");
 		meta.setUpIpaddr(upperDataAccessNode);
-		Notifier.getNotifier().fireAddNode(meta);
+		System.out.println(meta.toString());
+//		Notifier.getNotifier().fireAddNode(meta);
 		return true;
 	}
 	/** 
@@ -124,7 +127,7 @@ public class NetWorkGraph {
 	@Produces("application/json")
 	public Boolean centerChanged(@FormParam("ip") String ip){
 		System.out.println(ip);
-		Notifier.getNotifier().fireMainCenterChanged(ip);
+//		Notifier.getNotifier().fireMainCenterChanged(ip);
 		return true;
 	}
 	
