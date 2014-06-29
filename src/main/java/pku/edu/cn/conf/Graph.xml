@@ -35,6 +35,7 @@
 		<dashed_type>dashed</dashed_type>
 	</edge>
 	<legend>
-	
+		<x>-700</x>
+		<y>-500</y>
 	</legend>
 </Graph>
