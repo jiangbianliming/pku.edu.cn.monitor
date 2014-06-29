@@ -33,24 +33,20 @@ public class AddNodeHandler extends ServerListenerAdapter{
 		String json =null;
 		Node node = new Node();
 		node.setId(metadataNode.getIpAddr());
-		node.setColor("rgb(0,255,0)");
 		node.setName(metadataNode.getIpAddr());
 		if(metadataNode.getNodeKind().equals("0")){
 			node.setName("用户系统"+metadataNode.getPhyAddr());
 			node.setShape("sphere");
-			node.setColor("rgb(0,255,0)");
 			node.setSize("1");
 		}
 		else if(metadataNode.getNodeKind().equals("1")){
 			node.setName("数据访问节点"+metadataNode.getPhyAddr());
 			node.setShape("square");
-			node.setColor("rgb(255,0,0)");
 			node.setSize("1");
 		}
 		else{
 			node.setName("数据中心"+metadataNode.getPhyAddr());
 			node.setShape("star");
-			node.setColor("rgb(255,255,0)");
 			node.setSize("1");
 		}
 		node.setGroup(metadataNode.getNodeKind());

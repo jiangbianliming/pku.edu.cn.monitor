@@ -45,7 +45,6 @@ public class DbConnection {
 		}
 		return conn;
 	}
-	
 	public static void main(String args[]){
 		DbConnection.getConnection();
 	}

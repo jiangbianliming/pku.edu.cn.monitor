@@ -29,19 +29,16 @@ public class GraphOperation {
 				if(USERSYS.equals(result.getString("nodeKind"))){
 					node.setName("用户系统("+result.getString("t_phyAddr")+")");
 					node.setShape("sphere");
-					node.setColor("rgb(0,255,0)");
 					node.setSize("1");
 				}
 				else if(ACCESSNODE.equals(result.getString("nodeKind"))){
 					node.setName("数据访问结点("+result.getString("t_phyAddr")+")");
 					node.setShape("square");
-					node.setColor("rgb(255,0,0)");
 					node.setSize("1");
 				}
 				else{
 					node.setName("数据中心("+result.getString("t_phyAddr")+")");
 					node.setShape("star");
-					node.setColor("rgb(255,255,0)");
 					if(result.getInt("maincenter")==MAINCENTER){
 						node.setSize("3");
 					}
@@ -133,13 +130,11 @@ public class GraphOperation {
 	}
 	public static void main(String args[]){
 		Node node = new Node();
-		node.setColor("sds");
 		node.setGroup("sss");
 		node.setId("aaa");
 		node.setName("xxx");
 		node.setShape("zzz");
 		Node node1 = new Node();
-		node1.setColor("sds1");
 		node1.setGroup("sss");
 		node1.setId("aaa");
 		node1.setName("xxx");

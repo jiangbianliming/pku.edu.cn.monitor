@@ -5,8 +5,13 @@ public class Node {
 	private String name;
 	private String group;
 	private String shape;
-	private String color;
 	private String size;
+	private String width;
+	private String height;
+	private String imagePath;
+	private String x;
+	private String y;
+	
 	
 	public String getSize()
 	{
@@ -31,6 +36,36 @@ public class Node {
 	public String getGroup() {
 		return group;
 	}
+	public String getWidth() {
+		return width;
+	}
+	public void setWidth(String width) {
+		this.width = width;
+	}
+	public String getHeight() {
+		return height;
+	}
+	public void setHeight(String height) {
+		this.height = height;
+	}
+	public String getImagePath() {
+		return imagePath;
+	}
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+	public String getX() {
+		return x;
+	}
+	public void setX(String x) {
+		this.x = x;
+	}
+	public String getY() {
+		return y;
+	}
+	public void setY(String y) {
+		this.y = y;
+	}
 	public void setGroup(String group) {
 		this.group = group;
 	}
@@ -40,10 +75,5 @@ public class Node {
 	public void setShape(String shape) {
 		this.shape = shape;
 	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
+	
 }
