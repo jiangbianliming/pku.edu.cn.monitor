@@ -33,6 +33,9 @@ public class WebSocket {
 		    }
     }
 	
+	public static void main(String args[]){
+		System.out.println(GraphOperation.getJsonData());
+	}
 	@OnOpen
     public void onOpen (Session session) {
 		System.out.println("session added");

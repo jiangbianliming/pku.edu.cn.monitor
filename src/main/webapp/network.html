@@ -131,9 +131,24 @@
 		<script src="./asset/js/lufylegend.min.js" type="text/javascript"></script>
 
 		<script>
+		window.onbeforeunload = function() {   
+            var n = window.event.screenX - window.screenLeft;   
+            var b = n > document.documentElement.scrollWidth-20;   
+            if(b && window.event.clientY < 0 || window.event.altKey){   
+                if(webSocket) {
+                	webSocket.close();
+                } 
+            }else{
+                if(webSocket) {
+                	webSocket.close();
+                } 
+            }
+        }  
+
        $('.tree-header2').click(function(){
             showTree();
         });
+
 		var showTree = function(){
 			var treeHeader = event.target;
 			var treeContent = event.target.nextElementSibling;
@@ -163,22 +178,22 @@
 		};
 		//ztree test data
 		var zNodes =[
-			{ id:11, pId:1, name:"数据访问节点1(2)", stdno:"111", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.png"},
-			{ id:111, pId:11, name:"用户系统1", stdno:"1111", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.png"},
-			{ id:112, pId:11, name:"用户系统2", stdno:"1112", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.png"},
-			{ id:12, pId:1, name:"数据访问节点2(2)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjdh.png"},
-			{ id:121, pId:12, name:"用户系统3", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.png"},
-			{ id:122, pId:12, name:"用户系统4", stdno:"1222", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.png"},
-			{ id:13, pId:1, name:"数据访问节点3(1)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.png"},
-			{ id:131, pId:13, name:"用户系统5", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.png"}
+			{ id:11, pId:1, name:"数据访问节点1(2)", stdno:"111", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
+			{ id:111, pId:11, name:"用户系统1", stdno:"1111", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
+			{ id:112, pId:11, name:"用户系统2", stdno:"1112", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
+			{ id:12, pId:1, name:"数据访问节点2(2)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjdh.PNG"},
+			{ id:121, pId:12, name:"用户系统3", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.PNG"},
+			{ id:122, pId:12, name:"用户系统4", stdno:"1222", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.PNG"},
+			{ id:13, pId:1, name:"数据访问节点3(1)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
+			{ id:131, pId:13, name:"用户系统5", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"}
 		];
        var zNodes1 =[
-           { id:11, pId:1, name:"数据访问节点1(2)", stdno:"111", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.png"},
-           { id:111, pId:11, name:"用户系统1", stdno:"1111", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.png"},
-           { id:112, pId:11, name:"用户系统2", stdno:"1112", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.png"},
-           { id:12, pId:1, name:"数据访问节点2(2)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.png"},
-           { id:121, pId:12, name:"用户系统3", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.png"},
-           { id:122, pId:12, name:"用户系统4", stdno:"1222", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.png"},
+           { id:11, pId:1, name:"数据访问节点1(2)", stdno:"111", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
+           { id:111, pId:11, name:"用户系统1", stdno:"1111", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
+           { id:112, pId:11, name:"用户系统2", stdno:"1112", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
+           { id:12, pId:1, name:"数据访问节点2(2)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
+           { id:121, pId:12, name:"用户系统3", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
+           { id:122, pId:12, name:"用户系统4", stdno:"1222", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.PNG"}
         ];
 
        $(document).ready(function(){
@@ -193,176 +208,176 @@
 			document.getElementById("data-network").style.display = 'block';
 			document.getElementById("network-name").innerHTML = treeNode.name;
 		}
-function Smearing($object){
-	var self = this;
-	base(self,LSprite,[]);
+// function Smearing($object){
+// 	var self = this;
+// 	base(self,LSprite,[]);
 
-	self.x = 687.5000000000001;
-	self.y = 406.11164463386166;
+// 	self.x = 687.5000000000001;
+// 	self.y = 406.11164463386166;
 
-	self.mode = "";
+// 	self.mode = "";
 
-	self.smearingSprite = new LSprite();
-	self.addChild(self.smearingSprite);
+// 	self.smearingSprite = new LSprite();
+// 	self.addChild(self.smearingSprite);
 
-	self.object = $object;
+// 	self.object = $object;
 
-	self.originalSprite = new LSprite();
-	self.addChild(self.originalSprite);
-	self.originalSprite.addChild(self.object);
+// 	self.originalSprite = new LSprite();
+// 	self.addChild(self.originalSprite);
+// 	self.originalSprite.addChild(self.object);
 
-	self.addEventListener(LEvent.ENTER_FRAME,self.smeared);
-}
-Smearing.prototype.smeared = function(self){
-	var smearingChild = new SmearingChild(self.originalSprite,self.object);
-	self.smearingSprite.addChild(smearingChild);
+// 	self.addEventListener(LEvent.ENTER_FRAME,self.smeared);
+// }
+// Smearing.prototype.smeared = function(self){
+// 	var smearingChild = new SmearingChild(self.originalSprite,self.object);
+// 	self.smearingSprite.addChild(smearingChild);
 
-	for(var key in self.smearingSprite.childList){
-		LTweenLite.to(self.smearingSprite.childList[key],0.5,{
-			alpha: 0,
-			onComplete:function(o){
-				self.smearingSprite.removeChild(o);
-			}
-		});
-	}
-};
-Smearing.prototype.to = function($duration,$vars){
-	var self = this;
+// 	for(var key in self.smearingSprite.childList){
+// 		LTweenLite.to(self.smearingSprite.childList[key],0.5,{
+// 			alpha: 0,
+// 			onComplete:function(o){
+// 				self.smearingSprite.removeChild(o);
+// 			}
+// 		});
+// 	}
+// };
+// Smearing.prototype.to = function($duration,$vars){
+// 	var self = this;
 
-	$vars.onComplete = function(){
-		self.mode = "complete";
-	}
-	LTweenLite.to(self.originalSprite,$duration,$vars);
-};
+// 	$vars.onComplete = function(){
+// 		self.mode = "complete";
+// 	}
+// 	LTweenLite.to(self.originalSprite,$duration,$vars);
+// };
 
 /**
 * SmearingChild
 * @param $parent 确定拖尾位置的对象
 * @param $object 要添加拖尾效果的对象
 */
-function SmearingChild($parent,$object){
-	var self = this;
-	base(self,LSprite,[]);
+// function SmearingChild($parent,$object){
+// 	var self = this;
+// 	base(self,LSprite,[]);
 
-	self.addChild($object);
+// 	self.addChild($object);
 
-	self.x = $parent.x;
-	self.y = $parent.y;
-	self.alpha = 0.6;
-}
-$(document).ready(function(){
-setTimeout(function(){
-	init(10,'smear',maincanvas.width,maincanvas.height,main);
-	var backLayer,meteorLayer;
-	var back,meteor;
-	var maxFrame = 40,indexFrame = 0;
+// 	self.x = $parent.x;
+// 	self.y = $parent.y;
+// 	self.alpha = 0.6;
+// }
+// $(document).ready(function(){
+// setTimeout(function(){
+// 	init(10,'smear',maincanvas.width,maincanvas.height,main);
+// 	var backLayer,meteorLayer;
+// 	var back,meteor;
+// 	var maxFrame = 40,indexFrame = 0;
 
-	function main(){
-		//LStage.setDebug(true);
-		//加入底板层
-		backLayer = new LSprite();
-		addChild(backLayer);
-		//加入流星层
-		meteorLayer = new LSprite();
-		addChild(meteorLayer);
+// 	function main(){
+// 		//LStage.setDebug(true);
+// 		//加入底板层
+// 		backLayer = new LSprite();
+// 		addChild(backLayer);
+// 		//加入流星层
+// 		meteorLayer = new LSprite();
+// 		addChild(meteorLayer);
 
-		var childSmear = $('#smear').children()[0];
-		childSmear.style.zIndex = -1;
+// 		var childSmear = $('#smear').children()[0];
+// 		childSmear.style.zIndex = -1;
 
-		for(i = 0;i<cx2.data.nodes.length;i++){
-			var executeLoop = function(){
-			var dataTmp = cx2.data.nodes[i];
-			var spotX = (cx2.offsetX + cx2.data.nodes[i].x) * cx2.scaleFactor;
-			var spotY = (cx2.offsetY + cx2.data.nodes[i].y) * cx2.scaleFactor;
-			var meteorSpot = new LSprite();
-			meteorSpot.graphics.drawArc(0,"#000000",[spotX,spotY,10,0,2*Math.PI],true,"rgb(189, 35, 35)");
-			meteorSpot.alpha = 0;
-			meteorLayer.addChild(meteorSpot);
-			meteorSpot.addEventListener(LMouseEvent.MOUSE_DOWN,function(){
-				document.getElementById("sidebar-statu").style.display = 'block';
+// 		for(i = 0;i<cx2.data.nodes.length;i++){
+// 			var executeLoop = function(){
+// 			var dataTmp = cx2.data.nodes[i];
+// 			var spotX = (cx2.offsetX + cx2.data.nodes[i].x) * cx2.scaleFactor;
+// 			var spotY = (cx2.offsetY + cx2.data.nodes[i].y) * cx2.scaleFactor;
+// 			var meteorSpot = new LSprite();
+// 			meteorSpot.graphics.drawArc(0,"#000000",[spotX,spotY,10,0,2*Math.PI],true,"rgb(189, 35, 35)");
+// 			meteorSpot.alpha = 0;
+// 			meteorLayer.addChild(meteorSpot);
+// 			meteorSpot.addEventListener(LMouseEvent.MOUSE_DOWN,function(){
+// 				document.getElementById("sidebar-statu").style.display = 'block';
 
-			  if(dataTmp.color=="rgb(127,127,127)"){
-				document.getElementById("sidebar-statu").style.display = 'none';
-			  }
-			  else{
-				document.getElementById("sidebar-statu").style.display = 'block';
+// 			  if(dataTmp.color=="rgb(127,127,127)"){
+// 				document.getElementById("sidebar-statu").style.display = 'none';
+// 			  }
+// 			  else{
+// 				document.getElementById("sidebar-statu").style.display = 'block';
 
-				if(dataTmp.group==1&&dataTmp.id=="Level1-1"){  //主数据中心具体信息
-					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.10</td></tr><tr><td><span class="label">2</span></td><td>主/从中心</td><td>主</td></tr><tr><td><span class="label">3</span></td><td>地理位置</td><td>北京大兴</td></tr><tr><td><span class="label">4</span></td><td>中心容量</td><td>100</td></tr><tr><td><span class="label">5</span></td><td>中心服务容量</td><td>300</td></tr></table> </div>'; }
-				else if(dataTmp.group==1&&dataTmp.id!="Level1-1"){  //从数据中心具体信息
-					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.10</td></tr><tr><td><span class="label">2</span></td><td>主/从中心</td><td>从</td></tr><tr><td><span class="label">3</span></td><td>地理位置</td><td>北京市大兴区金苑路24号</td></tr><tr><td><span class="label">4</span></td><td>中心容量</td><td>100</td></tr><tr><td><span class="label">5</span></td><td>中心服务容量</td><td>300</td></tr></table> </div>';}
-				else if(dataTmp.group==2){ 	//数据访问节点具体信息
-					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.2</td></tr><tr><td><span class="label">2</span></td><td>访问类型</td><td>情报信息库</td></tr><tr><td><span class="label">3</span></td><td>用户系统IP</td><td>192.168.124.330</td></tr></table> </div>'; }
-				else { 	//用户系统具体信息
-					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'<a id="closeButton" class="mo-close" title="关闭"></a>&nbsp;&nbsp;&nbsp;&nbsp</div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.2</td></tr><tr><td><span class="label">2</span></td><td>所属机构</td><td>机构1</td></tr><tr><td><span class="label">3</span></td><td>系统类型</td><td>类型1</td></tr><tr><td><span class="label">4</span></td><td>接口1</td><td>正常显示</td></tr><tr><td><span class="label">5</span></td><td>接口2</td><td>等待返回</td></tr><tr><td><span class="label">6</span></td><td>接口3</td><td>等待返回</td></tr><tr><td><span class="label">7</span></td><td>接口4</td><td>正常显示</td></tr></table> </div>';}
+// 				if(dataTmp.group==1&&dataTmp.id=="Level1-1"){  //主数据中心具体信息
+// 					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.10</td></tr><tr><td><span class="label">2</span></td><td>主/从中心</td><td>主</td></tr><tr><td><span class="label">3</span></td><td>地理位置</td><td>北京大兴</td></tr><tr><td><span class="label">4</span></td><td>中心容量</td><td>100</td></tr><tr><td><span class="label">5</span></td><td>中心服务容量</td><td>300</td></tr></table> </div>'; }
+// 				else if(dataTmp.group==1&&dataTmp.id!="Level1-1"){  //从数据中心具体信息
+// 					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.10</td></tr><tr><td><span class="label">2</span></td><td>主/从中心</td><td>从</td></tr><tr><td><span class="label">3</span></td><td>地理位置</td><td>北京市大兴区金苑路24号</td></tr><tr><td><span class="label">4</span></td><td>中心容量</td><td>100</td></tr><tr><td><span class="label">5</span></td><td>中心服务容量</td><td>300</td></tr></table> </div>';}
+// 				else if(dataTmp.group==2){ 	//数据访问节点具体信息
+// 					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.2</td></tr><tr><td><span class="label">2</span></td><td>访问类型</td><td>情报信息库</td></tr><tr><td><span class="label">3</span></td><td>用户系统IP</td><td>192.168.124.330</td></tr></table> </div>'; }
+// 				else { 	//用户系统具体信息
+// 					document.getElementById("sidebar-statu").innerHTML = ' <div class="well sidebar-nav"><div class="nav-header">'+dataTmp.name+'<a id="closeButton" class="mo-close" title="关闭"></a>&nbsp;&nbsp;&nbsp;&nbsp</div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>192.168.124.2</td></tr><tr><td><span class="label">2</span></td><td>所属机构</td><td>机构1</td></tr><tr><td><span class="label">3</span></td><td>系统类型</td><td>类型1</td></tr><tr><td><span class="label">4</span></td><td>接口1</td><td>正常显示</td></tr><tr><td><span class="label">5</span></td><td>接口2</td><td>等待返回</td></tr><tr><td><span class="label">6</span></td><td>接口3</td><td>等待返回</td></tr><tr><td><span class="label">7</span></td><td>接口4</td><td>正常显示</td></tr></table> </div>';}
 
-				var msgBox = document.getElementById('sidebar-statu');
-				var closeBtn = document.getElementById('closeButton');
-				closeBtn.onclick=function(){
-					msgBox.style.display = 'none';}
-				}
-				}
-			);
-			}
-			executeLoop();
-		};
+// 				var msgBox = document.getElementById('sidebar-statu');
+// 				var closeBtn = document.getElementById('closeButton');
+// 				closeBtn.onclick=function(){
+// 					msgBox.style.display = 'none';}
+// 				}
+// 				}
+// 			);
+// 			}
+// 			executeLoop();
+// 		};
 
-		var test = document.getElementById('test');
+// 		var test = document.getElementById('test');
 
-		test.onclick = function(){
-		var childSmear = $('#smear').children()[0];
-		console.log(childSmear);
-		childSmear.style.zIndex = -1;
-		var zuobiaox = (cx2.offsetX + cx2.data.nodes[0].x) * cx2.scaleFactor;
-		var zuobiaoy = (cx2.offsetY + cx2.data.nodes[0].y) * cx2.scaleFactor;
-		var zuobiaox1 = (cx2.offsetX + cx2.data.nodes[1].x) * cx2.scaleFactor;
-		var zuobiaoy1 = (cx2.offsetY + cx2.data.nodes[1].y) * cx2.scaleFactor;
-		console.log(cx2.scaleFactor);
-		console.log(zuobiaox);
-		console.log(zuobiaoy);
-		console.log(zuobiaox1);
-		console.log(zuobiaoy1);
-		//画一个黄色矩形作为一颗流星
-		meteor = new LSprite();
-		meteor.graphics.drawArc(0,"#ff0000",[zuobiaox,zuobiaoy,2,0,2*Math.PI],true,"#888000");
-		meteor1 = new LSprite();
-		meteor1.graphics.drawArc(1,"#FFFFFF",[zuobiaox,zuobiaoy,4,0,2*Math.PI],true,"#FFFFFF");
+// 		test.onclick = function(){
+// 		var childSmear = $('#smear').children()[0];
+// 		console.log(childSmear);
+// 		childSmear.style.zIndex = -1;
+// 		var zuobiaox = (cx2.offsetX + cx2.data.nodes[0].x) * cx2.scaleFactor;
+// 		var zuobiaoy = (cx2.offsetY + cx2.data.nodes[0].y) * cx2.scaleFactor;
+// 		var zuobiaox1 = (cx2.offsetX + cx2.data.nodes[1].x) * cx2.scaleFactor;
+// 		var zuobiaoy1 = (cx2.offsetY + cx2.data.nodes[1].y) * cx2.scaleFactor;
+// 		console.log(cx2.scaleFactor);
+// 		console.log(zuobiaox);
+// 		console.log(zuobiaoy);
+// 		console.log(zuobiaox1);
+// 		console.log(zuobiaoy1);
+// 		//画一个黄色矩形作为一颗流星
+// 		meteor = new LSprite();
+// 		meteor.graphics.drawArc(0,"#ff0000",[zuobiaox,zuobiaoy,2,0,2*Math.PI],true,"#888000");
+// 		meteor1 = new LSprite();
+// 		meteor1.graphics.drawArc(1,"#FFFFFF",[zuobiaox,zuobiaoy,4,0,2*Math.PI],true,"#FFFFFF");
 
-		meteorLayer.addChild(meteor1);
+// 		meteorLayer.addChild(meteor1);
 
-		LTweenLite.to(meteor1,1.5,{
-				x: zuobiaox1-zuobiaox,
-				y: zuobiaoy1-zuobiaoy,
-				onComplete:function(o){
-					meteorLayer.removeChild(o);
-				}
-		});
-		meteorLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
+// 		LTweenLite.to(meteor1,1.5,{
+// 				x: zuobiaox1-zuobiaox,
+// 				y: zuobiaoy1-zuobiaoy,
+// 				onComplete:function(o){
+// 					meteorLayer.removeChild(o);
+// 				}
+// 		});
+// 		meteorLayer.addEventListener(LEvent.ENTER_FRAME,onframe);
 
-		var count = 1;
-		function onframe(){
-			if(count<50){
-			var meteor2 = new LSprite();
+// 		var count = 1;
+// 		function onframe(){
+// 			if(count<50){
+// 			var meteor2 = new LSprite();
 
-			meteor2.graphics.drawArc(2,"rgb(220, 20, 60)",[zuobiaox,zuobiaoy,2-2*count/50,0,2*Math.PI],true,"rgb(220, 20, 60)");
-			meteor2.alpha = 1-0.95*count/50;
-			meteorLayer.addChild(meteor2);
-			LTweenLite.to(meteor2,1.5,{
-					alpha:1-0.95*count/50,
-					x: zuobiaox1-zuobiaox,
-					y: zuobiaoy1-zuobiaoy,
-					onComplete:function(o){
-						meteorLayer.removeChild(o);
-					}
-			});
-			count ++
-			}
-		}
-		}
-	}
-},0);
-	}
-);
+// 			meteor2.graphics.drawArc(2,"rgb(220, 20, 60)",[zuobiaox,zuobiaoy,2-2*count/50,0,2*Math.PI],true,"rgb(220, 20, 60)");
+// 			meteor2.alpha = 1-0.95*count/50;
+// 			meteorLayer.addChild(meteor2);
+// 			LTweenLite.to(meteor2,1.5,{
+// 					alpha:1-0.95*count/50,
+// 					x: zuobiaox1-zuobiaox,
+// 					y: zuobiaoy1-zuobiaoy,
+// 					onComplete:function(o){
+// 						meteorLayer.removeChild(o);
+// 					}
+// 			});
+// 			count ++
+// 			}
+// 		}
+// 		}
+// 	}
+// },0);
+// 	}
+// );
 
 		var wsUrl;
 		if (window.location.protocol == 'https:') {  
@@ -370,6 +385,8 @@ setTimeout(function(){
 		} else {
 	        wsUrl = 'ws://' + window.location.host + '/monitor/websocket';
 		}
+		var cx2;
+
 		var webSocket = 
 			new WebSocket(wsUrl);
 		
@@ -379,21 +396,27 @@ setTimeout(function(){
 		webSocket.onopen = function(event) {
 			onOpen(event)
 		};
-
 		webSocket.onmessage = function(event) {
 			onMessage(event)
 		};
 		webSocket.onclose = function(event){
 			console.log("websocket closed");
 		}
-
+		function onOpen(event) {
+			webSocket.send('hello');
+			console.log("connection conn");
+		}
+		function onError(event) {
+			alert(event.data);
+		}
 		var graphic = document.getElementById('graphic');
 		var maincanvas = document.getElementById('main');
 		maincanvas.width = graphic.scrollWidth;
 
 		function onMessage(event) {
-			var json = eval('(' + event.data + ')');
-			console.log(json)
+			// var json = eval('(' + event.data + ')');
+			var json = event.data;
+			console.log(event.data);
 			if(json.addNode){
 				var node = json.addNode;
 				console.log(node);
@@ -464,45 +487,37 @@ setTimeout(function(){
 				}
 			}
 			else{			
-				var cx2 = new CanvasXpress('main',json,
-				  {	'backgroundGradient1Color': 'rgb(0,0,0)',
-			          'backgroundGradient2Color': 'rgb(0,0,0)',
-			          'gradient': true,
-			          'graphType': 'Network',
-					  'canvasBoxColor' : 'rgb(0,0,0)',
-			          'indicatorCenter': 'rainbow',
-					  'decorationsPosition': 'top',
-			          'nodeFontColor': 'rgb(255,255,255)',
-			          'showAnimation': true},
-					{
-				  
-				  'click' : function(o, e, t) {
-					document.getElementById("sidebar-statu").style.display = 'block';
-					if(o.nodes[0].group==0){  //用户系统	
-						accessSysNode(o.nodes[0].id, o.nodes[0].group)}	
-					else if(o.nodes[0].group==1){  //数据访问节点	
-						accessANode(o.nodes[0].id, o.nodes[0].group)}
-					else { 	//数据中心
-						accessCenterNode(o.nodes[0].id, o.nodes[0].group,o.nodes[0].size);}	
-										
-					var msgBox = document.getElementById('sidebar-statu');
-					var closeBtn = document.getElementById('closeButton');
-					closeBtn.onclick=function(){
+				cx2 = new CanvasXpress('main',json,
+			      {'backgroundGradient1Color': 'rgba(0,0,0,0)',
+					 'background':'rgba(0,0,0,0)',
+          			'backgroundGradient2Color': 'rgba(0,0,0,0)',
+          			'gradient': true,
+          			'graphType': 'Network',
+		  			'canvasBoxColor' : 'rgb(0,0,0)',
+          			'indicatorCenter': 'rainbow',
+		  			'decorationsPosition': 'top',
+          			'nodeFontColor': 'rgb(255,255,255)',
+		  			'networkLayoutType': 'radial',
+          			'showAnimation': false},
+					{'click' : function(o, e, t) {
+						document.getElementById("sidebar-statu").style.display = 'block';
+						if(o.nodes[0].group==0){  //用户系统	
+							accessSysNode(o.nodes[0].id, o.nodes[0].group)}	
+						else if(o.nodes[0].group==1){  //数据访问节点	
+							accessANode(o.nodes[0].id, o.nodes[0].group)}
+						else { 	//数据中心
+							accessCenterNode(o.nodes[0].id, o.nodes[0].group,o.nodes[0].size);}	
+
+						var msgBox = document.getElementById('sidebar-statu');
+						var closeBtn = document.getElementById('closeButton');
+						closeBtn.onclick=function(){
 						msgBox.style.display = 'none';}
-				  }
-			 }
-			);
-			tmp = cx2;
+				  	}
+			 		}
+				);
 		}		
 	}
-	function onOpen(event) {
-			webSocket.send('hello');
-			console.log("connection conn");
-		}
 
-		function onError(event) {
-			alert(event.data);
-		}
 	// var cx2 = new CanvasXpress('main',
 	// {
 	// 	'nodes' : [{
@@ -1180,7 +1195,8 @@ setTimeout(function(){
 	// 	  'type' : 'line'
 	// 	}],
 	// 	 'legend' : {
- //              'nodes' : [],'pos' : {
+ //              'nodes' : [],
+ 				 // 'pos' : {
  //                'nodes' : {
  //                  'x' : -700,
  //                  'y' : -500

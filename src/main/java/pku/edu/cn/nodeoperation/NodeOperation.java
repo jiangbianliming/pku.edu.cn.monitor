@@ -17,7 +17,6 @@ import pku.edu.cn.conn.MetaData;
 public class NodeOperation {
 	public String getNodeInfo(String id, String group) {
 		if(group.equals("0")){
-			System.out.println("wwwwwwwww"+group);
 			UserSysNode node = getUserSysNode(id);
 			JSONObject jsonObject = JSONObject.fromObject(node); 
 			return jsonObject.toString();

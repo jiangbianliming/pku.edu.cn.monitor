@@ -37,19 +37,19 @@ public class AddNodeHandler extends ServerListenerAdapter{
 		if(metadataNode.getNodeKind().equals("0")){
 			node.setName("用户系统"+metadataNode.getPhyAddr());
 			node.setShape("sphere");
-			node.setSize("1");
+			node.setSize(1);
 		}
 		else if(metadataNode.getNodeKind().equals("1")){
 			node.setName("数据访问节点"+metadataNode.getPhyAddr());
 			node.setShape("square");
-			node.setSize("1");
+			node.setSize(1);
 		}
 		else{
 			node.setName("数据中心"+metadataNode.getPhyAddr());
 			node.setShape("star");
-			node.setSize("1");
+			node.setSize(1);
 		}
-		node.setGroup(metadataNode.getNodeKind());
+		node.setGroup(Integer.parseInt(metadataNode.getNodeKind()));
 		
 		if(metadataNode.getUpIpaddr()!=null){
 			List edgeList = new ArrayList<>();

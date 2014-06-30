@@ -18,10 +18,14 @@ public class MineThreadListener implements ServletContextListener {
     static String line = null;
 	static StringBuffer buf = new StringBuffer();
 //	static String FILENAME = "/var/log/lilu/result.log";
-	static String FILENAME = "/Users/admin/Desktop/pku.edu.cn.monitor/src/main/java/pku/edu/cn/logmine/test.log";
+	private String FILENAME; 
+//	
 	static String lastLine = null;
 	private Mine thread;
 	
+	public static void main(String args[]){
+		System.out.println(MineThreadListener.class.getClass().getResource("/").getPath());
+	}
 //	static{
 //		Properties props = new Properties();
 //		try {
@@ -47,6 +51,7 @@ public class MineThreadListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
+		FILENAME = MineThreadListener.class.getResource("/").getPath() +"pku/edu/cn/logmine/test.log";
 		String str = null;  
         if (str == null && thread == null) {  
         	try {

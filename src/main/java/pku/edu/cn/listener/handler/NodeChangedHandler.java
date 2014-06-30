@@ -17,7 +17,6 @@ public class NodeChangedHandler extends ServerListenerAdapter {
 	public void nodeChanged(String nodeJson) {
 		// TODO Auto-generated method stub
 		if(WebSocket.list.size()==0){
-			System.out.println("û����");
 			return;
 		}
 		ArrayList<Session> delSession = new ArrayList<Session>();
@@ -25,7 +24,6 @@ public class NodeChangedHandler extends ServerListenerAdapter {
 			if(session.isOpen()){
 				System.out.println("session is open");
 				try {
-					System.out.println("���ͳ�ȥ��");
 					session.getBasicRemote().sendText(nodeJson);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

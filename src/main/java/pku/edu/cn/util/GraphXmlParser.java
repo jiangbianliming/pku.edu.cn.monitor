@@ -38,6 +38,12 @@ public class GraphXmlParser {
 			e.printStackTrace();
 		}
 	}
+	public static String getMainCenterSize(){
+		return center_node.getElementsByTagName("mainCenterSize").item(0).getFirstChild().getNodeValue();
+	}
+	public static String getCenterNodeGroup(){
+		return center_node.getElementsByTagName("group").item(0).getFirstChild().getNodeValue();
+	}
 	public static String getCenterNodeShape(){
 		return center_node.getElementsByTagName("shape").item(0).getFirstChild().getNodeValue();
 	}
@@ -59,6 +65,9 @@ public class GraphXmlParser {
 	public static String getCenterNodeSize(){
 		return center_node.getElementsByTagName("size").item(0).getFirstChild().getNodeValue();
 	}
+	public static String getAccessNodeGroup(){
+		return access_node.getElementsByTagName("group").item(0).getFirstChild().getNodeValue();
+	}
 	public static String getAccessNodeShape(){
 		return access_node.getElementsByTagName("shape").item(0).getFirstChild().getNodeValue();
 	}
@@ -79,6 +88,9 @@ public class GraphXmlParser {
 	}
 	public static String getAccessNodeSize(){
 		return access_node.getElementsByTagName("size").item(0).getFirstChild().getNodeValue();
+	}
+	public static String getSysNodeGroup(){
+		return sys_node.getElementsByTagName("group").item(0).getFirstChild().getNodeValue();
 	}
 	public static String getSysNodeWidth(){
 		return sys_node.getElementsByTagName("width").item(0).getFirstChild().getNodeValue();
@@ -116,6 +128,7 @@ public class GraphXmlParser {
 	public static String getLegendY(){
 		return legend.getElementsByTagName("y").item(0).getFirstChild().getNodeValue();
 	}
+	
 	public static void main(String args[]){
 		System.out.println(GraphXmlParser.getCenterNodeShape());
 	}

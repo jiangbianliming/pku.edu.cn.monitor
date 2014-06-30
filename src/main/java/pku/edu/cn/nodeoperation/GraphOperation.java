@@ -4,13 +4,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
 import pku.edu.cn.Entity.Edges;
+import pku.edu.cn.Entity.Legend;
 import pku.edu.cn.Entity.Node;
 import pku.edu.cn.Entity.NodesScale;
 import pku.edu.cn.Entity.NodesType;
 import pku.edu.cn.conn.MetaData;
+import pku.edu.cn.util.GraphXmlParser;
 import net.sf.json.JSONObject;
 
 public class GraphOperation {
@@ -27,26 +32,43 @@ public class GraphOperation {
 				Node node = new Node();
 				node.setId(result.getString("t_ipAddr"));
 				if(USERSYS.equals(result.getString("nodeKind"))){
-					node.setName("用户系统("+result.getString("t_phyAddr")+")");
-					node.setShape("sphere");
-					node.setSize("1");
+					node.setName(result.getString("userSysName")+"("+result.getString("t_phyAddr")+")");
+					node.setGroup(Integer.parseInt(GraphXmlParser.getSysNodeGroup()));
+					node.setShape(GraphXmlParser.getSysNodeShape());
+					node.setImagePath(GraphXmlParser.getSysNodeImagePath());
+					node.setHeight(Integer.parseInt(GraphXmlParser.getSysNodeHeight()));
+					node.setWidth(Integer.parseInt(GraphXmlParser.getSysNodeWidth()));
+					node.setX(Integer.parseInt(GraphXmlParser.getSysNodeX()));
+					node.setY(Integer.parseInt(GraphXmlParser.getSysNodeY()));
+					node.setSize(Integer.parseInt(GraphXmlParser.getSysNodeSize()));
 				}
 				else if(ACCESSNODE.equals(result.getString("nodeKind"))){
-					node.setName("数据访问结点("+result.getString("t_phyAddr")+")");
-					node.setShape("square");
-					node.setSize("1");
+					node.setName(result.getString("accessNodeName")+"("+result.getString("t_phyAddr")+")");
+					node.setGroup(Integer.parseInt(GraphXmlParser.getAccessNodeGroup()));
+					node.setShape(GraphXmlParser.getAccessNodeShape());
+					node.setImagePath(GraphXmlParser.getAccessNodeImagePath());
+					node.setHeight(Integer.parseInt(GraphXmlParser.getAccessNodeHeight()));
+					node.setWidth(Integer.parseInt(GraphXmlParser.getAccessNodeWidth()));
+					node.setX(Integer.parseInt(GraphXmlParser.getAccessNodeX()));
+					node.setY(Integer.parseInt(GraphXmlParser.getAccessNodeY()));
+					node.setSize(Integer.parseInt(GraphXmlParser.getAccessNodeSize()));
 				}
 				else{
-					node.setName("数据中心("+result.getString("t_phyAddr")+")");
-					node.setShape("star");
+					node.setName(result.getString("dataCenterName")+"("+result.getString("t_phyAddr")+")");
+					node.setGroup(Integer.parseInt(GraphXmlParser.getCenterNodeGroup()));
+					node.setShape(GraphXmlParser.getCenterNodeShape());
+					node.setImagePath(GraphXmlParser.getCenterNodeImagePath());
+					node.setHeight(Integer.parseInt(GraphXmlParser.getCenterNodeHeight()));
+					node.setWidth(Integer.parseInt(GraphXmlParser.getCenterNodeWidth()));
+					node.setX(Integer.parseInt(GraphXmlParser.getCenterNodeX()));
+					node.setY(Integer.parseInt(GraphXmlParser.getCenterNodeY()));
 					if(result.getInt("maincenter")==MAINCENTER){
-						node.setSize("3");
+						node.setSize(Integer.parseInt(GraphXmlParser.getMainCenterSize()));
 					}
 					else{
-						node.setSize("1");
+						node.setSize(Integer.parseInt(GraphXmlParser.getCenterNodeSize()));
 					}				
 				}
-				node.setGroup(result.getString("nodeKind"));
 				list.add(node);
 			}
 		} catch (SQLException e) {
@@ -64,15 +86,15 @@ public class GraphOperation {
 					Edges edge = new Edges();
 					edge.setId1(reslut.getString("t_ipAddr"));
 					edge.setId2(reslut.getString("upIpAddr"));
-					edge.setColor("rgb(0,255,0)");
-					edge.setType("line");
+					edge.setColor(GraphXmlParser.getEdgeColor());
+					edge.setType(GraphXmlParser.getEdgeLineType());
 					list.add(edge);
 				}
 				else{
 					Edges edge = new Edges();
 					edge.setId1(reslut.getString("t_ipAddr"));
-					edge.setColor("rgb(0,255,0)");
-					edge.setType("line");
+					edge.setColor(GraphXmlParser.getEdgeColor());
+					edge.setType(GraphXmlParser.getEdgeLineType());
 					centerList.add(edge);
 				}	
 			}
@@ -95,77 +117,66 @@ public class GraphOperation {
 		}
 		return list;
 	}
-	public Map<String,Map> getLegend(){
-		Map map = new HashMap<String,List>();
-		List NodesList = new ArrayList<Object>();
-		NodesType nodesType1 = new NodesType();
-		nodesType1.setShape("star");
-		nodesType1.setColor("rgb(255,255,0)");
-		nodesType1.setText("数据中心");
-		nodesType1.setId("nodesLegendId1");
+//	public Map<String,Map> getLegend(){
+//		Map map = new HashMap<String,List>();
+//		List NodesList = new ArrayList<Object>();
+//		NodesType nodesType1 = new NodesType();
+//		nodesType1.setShape("star");
+//		nodesType1.setColor("rgb(255,255,0)");
+//		nodesType1.setText("数据中心");
+//		nodesType1.setId("nodesLegendId1");
+//		
+//		NodesType nodesType2 = new NodesType();
+//		nodesType2.setShape("square");
+//		nodesType2.setColor("rgb(255,0,0)");
+//		nodesType2.setText("数据访问节点");
+//		nodesType2.setId("nodesLegendId2");
+//		
+//		NodesType nodesType3 = new NodesType();
+//		nodesType3.setShape("sphere");
+//		nodesType3.setColor("rgb(0,255,0)");
+//		nodesType3.setText("用户系统");
+//		nodesType3.setId("nodesLegendId4");
+//		
+//		NodesList.add(nodesType1);
+//		NodesList.add(nodesType2);
+//		NodesList.add(nodesType3);
+//		map.put("nodes", NodesList);
+//		NodesScale nodesScale = new NodesScale();
+//		nodesScale.setX(-500);
+//		nodesScale.setY(-700);
+//		Map nodesMap = new HashMap();
+//		nodesMap.put("nodes", nodesScale);
+//		map.put("pos", nodesMap);
+//		return map;
+//	}
+	public Map<String,Object> getLegend(){
+		Map<String,Object> legendMap = new HashMap<String,Object>();
 		
-		NodesType nodesType2 = new NodesType();
-		nodesType2.setShape("square");
-		nodesType2.setColor("rgb(255,0,0)");
-		nodesType2.setText("数据访问节点");
-		nodesType2.setId("nodesLegendId2");
+		Map<String,Object> nodeListMap = new HashMap<String,Object>();
+		List<String> nodesList = new ArrayList<String>();
+		nodeListMap.put("nodes", nodesList);
 		
-		NodesType nodesType3 = new NodesType();
-		nodesType3.setShape("sphere");
-		nodesType3.setColor("rgb(0,255,0)");
-		nodesType3.setText("用户系统");
-		nodesType3.setId("nodesLegendId4");
+		Map<String,Legend> nodesMap = new HashMap<String, Legend>();
+		Legend legend = new Legend();
+		legend.setX(Integer.parseInt(GraphXmlParser.getLegendX()));
+		legend.setY(Integer.parseInt(GraphXmlParser.getLegendY()));
+		nodesMap.put("nodes", legend);
+		nodeListMap.put("pos",nodesMap);
 		
-		NodesList.add(nodesType1);
-		NodesList.add(nodesType2);
-		NodesList.add(nodesType3);
-		map.put("nodes", NodesList);
-		NodesScale nodesScale = new NodesScale();
-		nodesScale.setX(-500);
-		nodesScale.setY(-700);
-		Map nodesMap = new HashMap();
-		nodesMap.put("nodes", nodesScale);
-		map.put("pos", nodesMap);
-		return map;
+		return nodeListMap;
 	}
 	public static void main(String args[]){
-		Node node = new Node();
-		node.setGroup("sss");
-		node.setId("aaa");
-		node.setName("xxx");
-		node.setShape("zzz");
-		Node node1 = new Node();
-		node1.setGroup("sss");
-		node1.setId("aaa");
-		node1.setName("xxx");
-		node1.setShape("zzz");
-		NodesScale scale = new NodesScale();
-		scale.setX(-500);
-		scale.setY(-700);
-		List list = new ArrayList();
-		list.add(node);
-		list.add(node1);
-		
-		Map<String, Object> map = new HashMap<String,Object>();
-		Map<String,Object> map1 = new HashMap<String,Object>();
-		Map<String,Object> map3 = new HashMap<String,Object>();
-		
-		map1.put("nodes", list);
-		map3.put("nodes", scale);
-		map1.put("pos", map3);
-		map.put("nodes", list);
-		map.put("eadgs",list);
-		map.put("legend",map1);
 	
-		JSONObject jsonObject = JSONObject.fromObject(map);
-		System.out.println(jsonObject);
+		GraphOperation test =new GraphOperation();
+		System.out.println(test.getJsonData());
 
 	}
-	public JSONObject getDataJson(List nodeList,List edgesList,Map legend){
-		Map map = new HashMap<String,Object>();
-		map.put("nodes", nodeList);
-		map.put("edges", edgesList);
+	public JSONObject getDataJson(List nodeList,List edgesList,Map legend){ 
+		Map map = new Hashtable<String,Object>();
 		map.put("legend", legend);
+		map.put("edges", edgesList);
+		map.put("nodes", nodeList);
 		JSONObject jsonObject = JSONObject.fromObject(map);
 		return jsonObject;
 	}
@@ -187,5 +198,5 @@ public class GraphOperation {
 		Map map = help.getLegend();
 		return help.getDataJson(list, listedge, map).toString();
 	}
-
+	
 }
