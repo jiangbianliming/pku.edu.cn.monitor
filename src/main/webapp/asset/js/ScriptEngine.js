@@ -9,7 +9,7 @@ function getRootPath(){
     var prePath=strFullPath.substring(0,pos);
     var postPath=strPath.substring(0,strPath.substr(1).indexOf('/')+1);
     return(prePath+postPath);
-    }
+}
 function ScriptEngine(){
     this.name = "";
     this.method = "";

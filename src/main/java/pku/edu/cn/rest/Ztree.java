@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -30,7 +31,7 @@ public class Ztree {
 	private static final int MAINCENTER=1;
 	private static final String USERSYS="0";
 	private static final String ACCESSNODE = "1";
-//	private static final String DATACENTER = "2";
+	private static final String DATACENTER = "2";
 	
 	/** 
 	* @Title: getZtree 
@@ -160,5 +161,56 @@ public class Ztree {
 	            }  
 	        }
 	        return null;
+	}
+	@GET
+	@Path("/ztree/centernode")
+	public String getCenterNode(){
+		MetaData meta = new MetaData();
+		ResultSet rs = meta.getMetadata();
+		Map<String,Integer> nodeTree = new HashMap<String,Integer>();
+		List<ZtreeNode> list = new ArrayList<ZtreeNode>();
+		try {
+			while(rs.next()){
+		
+				if(rs.getString("upIPAddr")!=null&&ACCESSNODE.equals(rs.getString("nodeKind"))){
+					if(nodeTree.get(rs.getString("upIPAddr"))!=null){
+						int tmp = nodeTree.get(rs.getString("upIPAddr"));
+						nodeTree.put(rs.getString("upIPAddr"), tmp+1);
+					}
+					else{
+						nodeTree.put(rs.getString("upIPAddr"), 1);
+					}
+				}
+				if(DATACENTER.equals(rs.getString("nodeKind"))){
+					ZtreeNode node = new ZtreeNode();
+					node.setId(rs.getString("t_ipAddr"));
+					node.setName("数据中心");
+					list.add(node);
+				}
+				
+			}
+			
+			Iterator iter = nodeTree.entrySet().iterator();
+			
+			while(iter.hasNext()){
+				Map.Entry entry = (Map.Entry) iter.next();
+				Object key = entry.getKey();
+				Object value = entry.getValue();
+				for(ZtreeNode tmpnode:list){
+					if(key.equals(tmpnode.getId())){
+						tmpnode.setName(tmpnode.getName()+"("+value+")");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		return JSONArray.fromObject(list).toString();
+	}
+	
+	public static void main(String args[]){
+		Ztree z = new Ztree();
+		System.out.println(z.getCenterNode());
 	}
 }
