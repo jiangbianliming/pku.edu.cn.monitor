@@ -149,7 +149,6 @@ public class Ztree {
 	                for(Method m:methods){
 	                    System.out.println(m.getName());
 	                    if(m.getName().equals(method)){
-	                    	System.out.println("xxxxxxxxxxx");
 	                        Object result = parames != null ? m.invoke(obj,parames) : m.invoke(obj); 
 	                        System.out.println(result.toString());
 	                        return result.toString();

@@ -8,7 +8,7 @@
 		<script src="./asset/js/esl/esl.js"></script>
 		<script src="./asset/js/codemirror.js"></script>
 		<script src="./asset/js/javascript.js"></script>
-
+		<script src="./asset/js/ScriptEngine.js"></script>
 		<link href="./asset/css/bootstrap.css" rel="stylesheet">
 		<link href="./asset/css/bootstrap-responsive.css" rel="stylesheet">
 		<link href="./asset/css/codemirror.css" rel="stylesheet">
@@ -78,23 +78,8 @@
                     </div>
 
 				</div>
-				<div class="data-tree-2" id="data-network" >
-					<div class="tree-header">
-						<img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span id="network-name">数据中心</span>
-						<img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/>
-					</div>
-					<div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">
-						#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值
-					</div>
-					<div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">
-						1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;192.168.3.1<br/>
-						2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主从中心&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从中心<br/>
-						3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地理位置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;北京<br/>
-					4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存储容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100T<br/>
-					5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3000<br/>
 
-					</div>
-
+				<div class="data-tree-2" id="data-network">
 				</div>
 				<div class="data-tree-3">
 					<div class="tree-header">
@@ -378,7 +363,32 @@
 // },0);
 // 	}
 // );
-
+		function findDataAccess(st, rt) {
+			 var se = new ScriptEngine();
+			 se.setClass("pku.edu.cn.nodeoperation.NodeOperation");
+			 se.setMethod("getNodeInfo");
+			 var re = se.invoke(st, rt);
+			 return re;
+		} 
+		function accessCenterNode(){
+			var centerNode =  findDataAccess(arguments[0], arguments[1]);
+			document.getElementById("data-network").innerHTML = '<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" 	alt="icon" width="22" height="22"/><span id="network-name">数据中心</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主从中心&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.centerType+'<br/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地理位置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.position+'<br/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存储容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.capacity+'<br/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.serverCapacity+'<br/></div>'}
+		function accessANode(){
+			var ANode =  findDataAccess(arguments[0], arguments[1])
+			var html='<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span 		id="network-name">数据访问节点</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ANode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;访问类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ANode.type+'<br/>';
+			var childip=ANode.userIpList;
+			for(var i =0;i<childip.length;i++){
+			console.log(childip[i])
+			var tmp=i+1;
+			var lable = tmp+2;
+			html+=lable+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户系统'+tmp+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+childip[i]+'<br/>';
+			}			
+			html+='</div>';
+			document.getElementById("data-network").innerHTML = html;
+		}
+		function accessSysNode(){
+			var sysNode =  findDataAccess(arguments[0], arguments[1])
+			document.getElementById("data-network").innerHTML = '<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span id="network-name">用户系统</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所属机构&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.sub+'<br/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.type+'<br/></div>'}
 		var wsUrl;
 		if (window.location.protocol == 'https:') {  
 	        wsUrl = 'wss://' + window.location.host + '/monitor/websocket';
@@ -414,8 +424,8 @@
 		maincanvas.width = graphic.scrollWidth;
 
 		function onMessage(event) {
-			// var json = eval('(' + event.data + ')');
-			var json = event.data;
+			var json = eval('(' + event.data + ')');
+			// var json = event.data;
 			console.log(event.data);
 			if(json.addNode){
 				var node = json.addNode;
@@ -500,18 +510,17 @@
 		  			'networkLayoutType': 'radial',
           			'showAnimation': false},
 					{'click' : function(o, e, t) {
-						document.getElementById("sidebar-statu").style.display = 'block';
-						if(o.nodes[0].group==0){  //用户系统	
+						if(o.nodes[0].group==3){  //用户系统	
 							accessSysNode(o.nodes[0].id, o.nodes[0].group)}	
-						else if(o.nodes[0].group==1){  //数据访问节点	
+						else if(o.nodes[0].group==2){  //数据访问节点	
 							accessANode(o.nodes[0].id, o.nodes[0].group)}
 						else { 	//数据中心
 							accessCenterNode(o.nodes[0].id, o.nodes[0].group,o.nodes[0].size);}	
 
-						var msgBox = document.getElementById('sidebar-statu');
-						var closeBtn = document.getElementById('closeButton');
-						closeBtn.onclick=function(){
-						msgBox.style.display = 'none';}
+						// var msgBox = document.getElementById('data-network');
+						// var closeBtn = document.getElementById('closeButton');
+						// closeBtn.onclick=function(){
+						// msgBox.style.display = 'none';}
 				  	}
 			 		}
 				);

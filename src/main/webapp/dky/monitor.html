@@ -473,7 +473,6 @@
 		}
 		function accessANode(){
 			var ANode =  findDataAccess(arguments[0], arguments[1])
-			//var ANode = eval('(' + json + ')')
 			var html=' <div class="well sidebar-nav"><div class="nav-header">'+'数据访问节点'+'&nbsp;&nbsp;&nbsp;&nbsp<a id="closeButton" class="mo-close" title="关闭"></a></div><table class="bordered"><thead><tr><th>#</th>        <th>监控目标</th><th>目标值</th></tr></thead><tr><td><span class="label">1</span></td><td>IP地址</td><td>'+ANode.ip+'</td></tr><tr><td><span class="label">2</span></td><td>访问类型</td><td>'+ANode.type+'</td></tr>'
 			var childip=ANode.userIpList;
 			for(var i =0;i<childip.length;i++){

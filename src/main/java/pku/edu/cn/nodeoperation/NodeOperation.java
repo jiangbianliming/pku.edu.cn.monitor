@@ -16,12 +16,12 @@ import pku.edu.cn.conn.MetaData;
 
 public class NodeOperation {
 	public String getNodeInfo(String id, String group) {
-		if(group.equals("0")){
+		if(group.equals("3")){
 			UserSysNode node = getUserSysNode(id);
 			JSONObject jsonObject = JSONObject.fromObject(node); 
 			return jsonObject.toString();
 		}
-		else if(group.equals("1")){
+		else if(group.equals("2")){
 			DataAccessNode node = getAccessNode(id);
 			JSONObject jsonObject = JSONObject.fromObject(node); ; 
 			return jsonObject.toString();
@@ -70,7 +70,7 @@ public class NodeOperation {
 			rs= stat.executeQuery(sql);
 			if(rs.next()){
 				node.setIp(id);
-				if(rs.getString("accessNodekind").equals("0")){
+				if("0".equals(rs.getString("accessNodekind"))){
 					node.setType("情报信息库");
 				}
 				else{
@@ -92,7 +92,11 @@ public class NodeOperation {
 		// TODO Auto-generated method stub
 		return node;
 	}
-
+	
+	public static void main(String args[]){
+		DataAccessNode node = getAccessNode("192.168.213.111");
+		System.out.println(node.getIp());
+	}
 	private static DataCenterNode getDataCenetrNode(String id) {
 		// TODO Auto-generated method stub
 		String sql = "select * from  t_data_center where ipAddr='"+id+"'";
