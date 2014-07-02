@@ -31,12 +31,12 @@
 					<div>
 					</div>
 				</div>
-				<div class="data-tree">
-					<div class="tree-header" >
+				<div id="tree" class="data-tree">
+					<div class="tree-header">
 						<img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/>节点管理器
 						<img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/>
 					</div>
-					<div class="tree-header2">
+					<!-- <div class="tree-header2">
 						<img class="header-icon3" id="img-1" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>数据中心服务(3)
 						<img class="header-icon4" id="img-2" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>
 					</div>
@@ -76,7 +76,7 @@
                         <div id="ztree5" class="ztree">
                         </div>
                     </div>
-
+ -->
 				</div>
 
 				<div class="data-tree-2" id="data-network">
@@ -150,48 +150,83 @@
 		var setting = {
 			edit: {
 				enable: false,
-				editNameSelectAll: true
+				editNameSelectAll: true,
 			},
 			data: {
 				simpleData: {
 					enable: true
 				}
 			},
-			callback: {
+			async:{
+			    type:"post",
+				enable:true,
+				contentType:"application/json",
+				url:""
+			},
+			callback:{
+				asyncSuccess: zTreeOnAsyncSuccess,
+				asyncError: zTreeOnAsyncError,
 				onClick: zTreeOnClick
 			}
 		};
+
+		function zTreeOnAsyncError(event, treeId, treeNode){ 
+			alert("异步加载失败!"); 
+		}
+		function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){ 
+				console.log(msg);
+		}
+		function zTreeOnClick(event, treeId, treeNode) {
+
+		}
 		//ztree test data
-		var zNodes =[
-			{ id:11, pId:1, name:"数据访问节点1(2)", stdno:"111", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
-			{ id:111, pId:11, name:"用户系统1", stdno:"1111", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
-			{ id:112, pId:11, name:"用户系统2", stdno:"1112", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
-			{ id:12, pId:1, name:"数据访问节点2(2)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjdh.PNG"},
-			{ id:121, pId:12, name:"用户系统3", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.PNG"},
-			{ id:122, pId:12, name:"用户系统4", stdno:"1222", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.PNG"},
-			{ id:13, pId:1, name:"数据访问节点3(1)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
-			{ id:131, pId:13, name:"用户系统5", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"}
-		];
-       var zNodes1 =[
-           { id:11, pId:1, name:"数据访问节点1(2)", stdno:"111", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
-           { id:111, pId:11, name:"用户系统1", stdno:"1111", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
-           { id:112, pId:11, name:"用户系统2", stdno:"1112", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
-           { id:12, pId:1, name:"数据访问节点2(2)", stdno:"121", stdname:"NODE", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"", open:true,icon:"./asset/img/treeicon/sjfwjd.PNG"},
-           { id:121, pId:12, name:"用户系统3", stdno:"1221", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxt.PNG"},
-           { id:122, pId:12, name:"用户系统4", stdno:"1222", stdname:"USER", bakstd:"", distdate:"", distcomp:"", fulltext:"", summary:"down", scope:"", privacy:"",icon:"./asset/img/treeicon/yhxth.PNG"}
-        ];
+		var zNodes =[];
 
        $(document).ready(function(){
-           $.fn.zTree.init($("#ztree1"), setting, zNodes);
-           $.fn.zTree.init($("#ztree2"), setting, zNodes);
-           $.fn.zTree.init($("#ztree3"), setting, zNodes1);
-           $.fn.zTree.init($("#ztree4"), setting, zNodes1);
-           $.fn.zTree.init($("#ztree5"), setting, zNodes1);
+
+       		$.ajax( {
+            type : "GET",
+            url : getRootPath() + "/api/v1/ztree/ztree/centernode",
+            cache : false,
+            async : false,
+            success : function(data) {
+                console.log(data);
+                addZtreeCenterNode(data);
+            },
+            error :function(data){
+                result= data;
+            }
+        });
+           // $.fn.zTree.init($("#ztree1"), setting, zNodes);
+           // $.fn.zTree.init($("#ztree2"), setting, zNodes);
+           // $.fn.zTree.init($("#ztree3"), setting, zNodes1);
+           // $.fn.zTree.init($("#ztree4"), setting, zNodes1);
+           // $.fn.zTree.init($("#ztree5"), setting, zNodes1);
        });
 
 		function zTreeOnClick(event, treeId, treeNode) {
 			document.getElementById("data-network").style.display = 'block';
 			document.getElementById("network-name").innerHTML = treeNode.name;
+		}
+
+		function addZtreeCenterNode(data){
+			var json = eval('(' + data + ')'); 
+			var tmp =0;
+			for(var o in json){
+				console.log(json[o].name);
+
+				var center = '<div class="tree-header2"><img class="header-icon3" id="img-1" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>'+json[o].name+'<img class="header-icon4" id="img-2" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>'
+				document.getElementById("tree").innerHTML = document.getElementById("tree").innerHTML +center;
+				tmp=tmp+1;
+				childztree = '<div class="center-service" style="display: block;"><div id="ztree'+tmp+'" class="ztree"></div></div>'
+				document.getElementById("tree").innerHTML = document.getElementById("tree").innerHTML+childztree;
+				setting.async.url=getRootPath()+"/api/v1/ztree/ztreenodes";
+				console.log(setting);
+				var treeId = '#ztree'+tmp;
+				console.log(treeId);
+				$.fn.zTree.init($(treeId), setting, zNodes);
+
+			}
 		}
 // function Smearing($object){
 // 	var self = this;

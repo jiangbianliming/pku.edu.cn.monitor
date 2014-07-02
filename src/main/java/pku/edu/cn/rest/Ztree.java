@@ -164,6 +164,8 @@ public class Ztree {
 	}
 	@GET
 	@Path("/ztree/centernode")
+//	@Consumes("application/json")
+//	@Produces("application/json")
 	public String getCenterNode(){
 		MetaData meta = new MetaData();
 		ResultSet rs = meta.getMetadata();
@@ -209,8 +211,8 @@ public class Ztree {
 		return JSONArray.fromObject(list).toString();
 	}
 	
-	public static void main(String args[]){
+	public static void main(String args[]) throws IOException{
 		Ztree z = new Ztree();
-		System.out.println(z.getCenterNode());
+		System.out.println(z.getZtree());
 	}
 }
