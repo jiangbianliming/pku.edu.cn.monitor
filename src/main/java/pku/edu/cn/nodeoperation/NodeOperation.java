@@ -16,12 +16,12 @@ import pku.edu.cn.conn.MetaData;
 
 public class NodeOperation {
 	public String getNodeInfo(String id, String group) {
-		if(group.equals("3")){
+		if(group.equals("0")){
 			UserSysNode node = getUserSysNode(id);
 			JSONObject jsonObject = JSONObject.fromObject(node); 
 			return jsonObject.toString();
 		}
-		else if(group.equals("2")){
+		else if(group.equals("1")){
 			DataAccessNode node = getAccessNode(id);
 			JSONObject jsonObject = JSONObject.fromObject(node); ; 
 			return jsonObject.toString();

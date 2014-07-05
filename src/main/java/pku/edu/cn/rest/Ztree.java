@@ -126,6 +126,66 @@ public class Ztree {
 		return jsonObject.toString();
 	}
 	
+	@POST
+	@Path("/childnodes")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public String getChildZtree() throws IOException{
+		
+		MetaData meta = new MetaData();
+		ResultSet rs = meta.getMetadata();
+		List<ZtreeNode> list = new ArrayList<ZtreeNode>(); 
+		Map<String,Integer> nodeTree = new HashMap<String,Integer>();
+		try {
+			while(rs.next()){
+				ZtreeNode node = new ZtreeNode();
+				if(rs.getString("upipAddr")!=null){
+					if(USERSYS.equals(rs.getString("nodeKind"))){	
+						node.setName(rs.getString("userSysName")+"("+rs.getString("t_phyAddr")+")");
+						node.setOpen(false);
+						node.setStdname("用户系统");
+						node.setIcon("./asset/img/treeicon/yhxt.PNG");
+					}
+					else{
+						node.setName(rs.getString("accessNodeName")+"("+rs.getString("t_phyAddr")+")");
+						node.setOpen(true);
+						node.setStdname("访问节点");
+						node.setIcon("./asset/img/treeicon/sjfwjd.PNG");
+					}
+					if(nodeTree.containsKey(rs.getString("upipAddr"))){
+						int tmp = (int)nodeTree.get(rs.getString("upipAddr"));					
+						int tmpValue = tmp+1;
+						System.out.println(tmpValue);
+						nodeTree.put(rs.getString("upipAddr"), tmpValue);
+					}
+					else{
+						nodeTree.put(rs.getString("upipAddr"),1);
+					}
+					node.setId(rs.getString("t_ipAddr"));
+					node.setpId(rs.getString("upipAddr"));
+					
+					list.add(node);
+				}
+			}
+			Iterator iter = nodeTree.entrySet().iterator();
+			
+			while(iter.hasNext()){
+				Map.Entry entry = (Map.Entry) iter.next();
+				Object key = entry.getKey();
+				Object value = entry.getValue();
+				for(ZtreeNode tmpnode:list){
+					if(key.equals(tmpnode.getId())){
+						tmpnode.setName(tmpnode.getName()+"("+value+")");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JSONArray jsonObject = JSONArray.fromObject(list);
+		return jsonObject.toString();
+	}
 	/** 
 	* @Title: getTreeNode 
 	* @Description: 通过反射机制获得ztree节点详细信息。

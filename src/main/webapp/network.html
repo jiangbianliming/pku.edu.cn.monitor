@@ -145,7 +145,32 @@
 				treeHeader.style.background = "#24313e";
 			}
 		}
-
+		function findDataAccess(st, rt) {
+			 var se = new ScriptEngine();
+			 se.setClass("pku.edu.cn.nodeoperation.NodeOperation");
+			 se.setMethod("getNodeInfo");
+			 var re = se.invoke(st, rt);
+			 return re;
+		} 
+		function accessCenterNode(){
+			var centerNode =  findDataAccess(arguments[0], arguments[1]);
+			document.getElementById("data-network").innerHTML = '<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" 	alt="icon" width="22" height="22"/><span id="network-name">数据中心</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主从中心&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.centerType+'<br/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地理位置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.position+'<br/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存储容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.capacity+'<br/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.serverCapacity+'<br/></div>'}
+		function accessANode(){
+			var ANode =  findDataAccess(arguments[0], arguments[1])
+			var html='<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span 		id="network-name">数据访问节点</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ANode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;访问类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ANode.type+'<br/>';
+			var childip=ANode.userIpList;
+			for(var i =0;i<childip.length;i++){
+			console.log(childip[i])
+			var tmp=i+1;
+			var lable = tmp+2;
+			html+=lable+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户系统'+tmp+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+childip[i]+'<br/>';
+			}			
+			html+='</div>';
+			document.getElementById("data-network").innerHTML = html;
+		}
+		function accessSysNode(){
+			var sysNode =  findDataAccess(arguments[0], arguments[1])
+			document.getElementById("data-network").innerHTML = '<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span id="network-name">用户系统</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所属机构&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.sub+'<br/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.type+'<br/></div>'}
 			//ztree全局定义
 		var setting = {
 			edit: {
@@ -177,7 +202,12 @@
 				console.log(msg);
 		}
 		function zTreeOnClick(event, treeId, treeNode) {
-
+			if(treeNode.stdname=="用户系统"){ 	//数据访问节点具体信息	
+				accessSysNode(treeNode.id, 0)	
+			}					
+			else { 	//用户系统具体信息
+				accessANode(treeNode.id, 1)
+			}
 		}
 		//ztree test data
 		var zNodes =[];
@@ -197,18 +227,8 @@
                 result= data;
             }
         });
-           // $.fn.zTree.init($("#ztree1"), setting, zNodes);
-           // $.fn.zTree.init($("#ztree2"), setting, zNodes);
-           // $.fn.zTree.init($("#ztree3"), setting, zNodes1);
-           // $.fn.zTree.init($("#ztree4"), setting, zNodes1);
-           // $.fn.zTree.init($("#ztree5"), setting, zNodes1);
+
        });
-
-		function zTreeOnClick(event, treeId, treeNode) {
-			document.getElementById("data-network").style.display = 'block';
-			document.getElementById("network-name").innerHTML = treeNode.name;
-		}
-
 		function addZtreeCenterNode(data){
 			var json = eval('(' + data + ')'); 
 			var tmp =0;
@@ -220,7 +240,7 @@
 				tmp=tmp+1;
 				childztree = '<div class="center-service" style="display: block;"><div id="ztree'+tmp+'" class="ztree"></div></div>'
 				document.getElementById("tree").innerHTML = document.getElementById("tree").innerHTML+childztree;
-				setting.async.url=getRootPath()+"/api/v1/ztree/ztreenodes";
+				setting.async.url=getRootPath()+"/api/v1/ztree/childnodes";
 				console.log(setting);
 				var treeId = '#ztree'+tmp;
 				console.log(treeId);
@@ -398,32 +418,7 @@
 // },0);
 // 	}
 // );
-		function findDataAccess(st, rt) {
-			 var se = new ScriptEngine();
-			 se.setClass("pku.edu.cn.nodeoperation.NodeOperation");
-			 se.setMethod("getNodeInfo");
-			 var re = se.invoke(st, rt);
-			 return re;
-		} 
-		function accessCenterNode(){
-			var centerNode =  findDataAccess(arguments[0], arguments[1]);
-			document.getElementById("data-network").innerHTML = '<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" 	alt="icon" width="22" height="22"/><span id="network-name">数据中心</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;主从中心&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.centerType+'<br/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地理位置&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.position+'<br/>4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;存储容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.capacity+'<br/>5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;服务容量&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+centerNode.serverCapacity+'<br/></div>'}
-		function accessANode(){
-			var ANode =  findDataAccess(arguments[0], arguments[1])
-			var html='<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span 		id="network-name">数据访问节点</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ANode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;访问类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ANode.type+'<br/>';
-			var childip=ANode.userIpList;
-			for(var i =0;i<childip.length;i++){
-			console.log(childip[i])
-			var tmp=i+1;
-			var lable = tmp+2;
-			html+=lable+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;用户系统'+tmp+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+childip[i]+'<br/>';
-			}			
-			html+='</div>';
-			document.getElementById("data-network").innerHTML = html;
-		}
-		function accessSysNode(){
-			var sysNode =  findDataAccess(arguments[0], arguments[1])
-			document.getElementById("data-network").innerHTML = '<div class="tree-header"><img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/><span id="network-name">用户系统</span><img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/></div><div class="tree-header2" style="padding-left:20px;  width:214px;color:#5489a6;">#&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目标值</div><div class="center-service"  style="padding-left:20px; width:214px;border-radius:0 0 5px 5px;display: block;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.ip+'<br/>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;所属机构&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.sub+'<br/>3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+sysNode.type+'<br/></div>'}
+		
 		var wsUrl;
 		if (window.location.protocol == 'https:') {  
 	        wsUrl = 'wss://' + window.location.host + '/monitor/websocket';
@@ -545,12 +540,12 @@
 		  			'networkLayoutType': 'radial',
           			'showAnimation': false},
 					{'click' : function(o, e, t) {
-						if(o.nodes[0].group==3){  //用户系统	
-							accessSysNode(o.nodes[0].id, o.nodes[0].group)}	
-						else if(o.nodes[0].group==2){  //数据访问节点	
-							accessANode(o.nodes[0].id, o.nodes[0].group)}
+						if(o.nodes[0].group==0){  //用户系统	
+							accessSysNode(o.nodes[0].id,0)}	
+						else if(o.nodes[0].group==1){  //数据访问节点	
+							accessANode(o.nodes[0].id,1)}
 						else { 	//数据中心
-							accessCenterNode(o.nodes[0].id, o.nodes[0].group,o.nodes[0].size);}	
+							accessCenterNode(o.nodes[0].id,2);}	
 
 						// var msgBox = document.getElementById('data-network');
 						// var closeBtn = document.getElementById('closeButton');

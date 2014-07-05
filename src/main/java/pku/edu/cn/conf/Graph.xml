@@ -2,7 +2,7 @@
 <Graph>
 <nodes>
 	<centernode>
-		<group>1</group>
+		<group>2</group>
 		<shape>image</shape>
 		<width>100</width>
 		<height>100</height>
@@ -13,7 +13,7 @@
 		<size>10</size>
 	</centernode>
 	<accessnode>
-		<group>2</group>
+		<group>1</group>
 		<shape>image</shape>
 		<width>100</width>
 		<height>100</height>
@@ -23,7 +23,7 @@
 		<size>6</size>
 	</accessnode>
 	<sysnode>
-		<group>3</group>
+		<group>0</group>
 		<shape>image</shape>
 		<width>100</width>
 		<height>100</height>
