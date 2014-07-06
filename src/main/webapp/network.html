@@ -36,47 +36,6 @@
 						<img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/>节点管理器
 						<img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/>
 					</div>
-					<!-- <div class="tree-header2">
-						<img class="header-icon3" id="img-1" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>数据中心服务(3)
-						<img class="header-icon4" id="img-2" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>
-					</div>
-					<div class="center-service" style="display: block;">
-						<div id="ztree1" class="ztree">
-						</div>
-					</div>
-					<div class="tree-header2" style="background:#263948;" >
-						<img class="header-icon3" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>数据中心服务(3)
-						<img class="header-icon4" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>
-					</div>
-                    <div class="center-service" >
-                        <div id="ztree2" class="ztree">
-                        </div>
-                    </div>
-					<div class="tree-header2" style="background:#263948;" >
-						<img class="header-icon3" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>数据中心服务(2)
-						<img class="header-icon4" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>
-					</div>
-                    <div class="center-service">
-                        <div id="ztree3" class="ztree">
-                        </div>
-                    </div>
-					<div class="tree-header2" style="background:#263948;">
-						<img class="header-icon3" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>数据中心服务(2)
-						<img class="header-icon4" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>
-					</div>
-                    <div class="center-service">
-                        <div id="ztree4" class="ztree">
-                        </div>
-                    </div>
-					<div class="tree-header2" style="background:#263948;border-radius:0 0 5px 5px;" >
-						<img class="header-icon3" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>数据中心服务(2)
-						<img class="header-icon4" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>
-					</div>
-                    <div class="center-service">
-                        <div id="ztree5" class="ztree">
-                        </div>
-                    </div>
- -->
 				</div>
 
 				<div class="data-tree-2" id="data-network">
@@ -89,22 +48,22 @@
 					<div class="log">
 						<span class="num">001</span>
 						<span class="time">23:59:59</span>
-						<span class="log-con">日志的内容日志的内容日志的内容日志的内容日志的内容日志的内容日志的</span>
+						<span class="log-con">方向海情系统加入全军信息服务中心</span>
 					</div>
 					<div class="log">
 						<span class="num">001</span>
 						<span class="time">23:59:59</span>
-						<span class="log-con">日志的内容日志的内容日志的内容日志的内容日志的内容日志的内容日志的</span>
+						<span class="log-con">全军信息服务中心向北京战区节点发送应急信息</span>
 					</div>
 					<div class="log">
 						<span class="num">001</span>
 						<span class="time">23:59:59</span>
-						<span class="log-con">日志的内容日志的内容日志的内容日志的内容日志的内容日志的内容日志的</span>
+						<span class="log-con">战区节点北京区出现故障</span>
 					</div>
 					<div class="log">
 						<span class="num">001</span>
 						<span class="time">23:59:59</span>
-						<span class="log-con">日志的内容日志的内容日志的内容日志的内容日志的内容日志的内容日志的</span>
+						<span class="log-con">空际情报向全军服务中心查询信息</span>
 					</div>
 
 				</div>
@@ -130,21 +89,7 @@
             }
         }  
 
-       $('.tree-header2').click(function(){
-            showTree();
-        });
-
-		var showTree = function(){
-			var treeHeader = event.target;
-			var treeContent = event.target.nextElementSibling;
-			if(treeContent.style.display != ''){
-				treeContent.style.display = '';
-				treeHeader.style.background = "#263948";
-			}else{
-				treeContent.style.display = 'block';
-				treeHeader.style.background = "#24313e";
-			}
-		}
+    
 		function findDataAccess(st, rt) {
 			 var se = new ScriptEngine();
 			 se.setClass("pku.edu.cn.nodeoperation.NodeOperation");
@@ -175,32 +120,26 @@
 		var setting = {
 			edit: {
 				enable: false,
-				editNameSelectAll: true,
+				editNameSelectAll: true
 			},
 			data: {
 				simpleData: {
 					enable: true
 				}
 			},
-			async:{
-			    type:"post",
-				enable:true,
-				contentType:"application/json",
-				url:""
-			},
 			callback:{
-				asyncSuccess: zTreeOnAsyncSuccess,
-				asyncError: zTreeOnAsyncError,
+				// asyncSuccess: zTreeOnAsyncSuccess,
+				// asyncError: zTreeOnAsyncError,
 				onClick: zTreeOnClick
 			}
 		};
 
-		function zTreeOnAsyncError(event, treeId, treeNode){ 
-			alert("异步加载失败!"); 
-		}
-		function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){ 
-				console.log(msg);
-		}
+		// function zTreeOnAsyncError(event, treeId, treeNode){ 
+		// 	alert("异步加载失败!"); 
+		// }
+		// function zTreeOnAsyncSuccess(event, treeId, treeNode, msg){ 
+	
+		// }
 		function zTreeOnClick(event, treeId, treeNode) {
 			if(treeNode.stdname=="用户系统"){ 	//数据访问节点具体信息	
 				accessSysNode(treeNode.id, 0)	
@@ -210,7 +149,6 @@
 			}
 		}
 		//ztree test data
-		var zNodes =[];
 
        $(document).ready(function(){
 
@@ -235,19 +173,45 @@
 			for(var o in json){
 				console.log(json[o].name);
 
-				var center = '<div class="tree-header2"><img class="header-icon3" id="img-1" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>'+json[o].name+'<img class="header-icon4" id="img-2" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>'
+				var center = '<div class="tree-header2" style="background:#263948;"><img class="header-icon3" id="img-1" src="./asset/ico/fy.png" alt="icon" width="16" height="19"/>'+json[o].name+'<img class="header-icon4" id="img-2" src="./image/arrow-2.png" alt="icon" width="16" height="16"/>'
 				document.getElementById("tree").innerHTML = document.getElementById("tree").innerHTML +center;
 				tmp=tmp+1;
-				childztree = '<div class="center-service" style="display: block;"><div id="ztree'+tmp+'" class="ztree"></div></div>'
+				childztree = '<div class="center-service"><div id="ztree'+tmp+'" class="ztree"></div></div>'
 				document.getElementById("tree").innerHTML = document.getElementById("tree").innerHTML+childztree;
-				setting.async.url=getRootPath()+"/api/v1/ztree/childnodes";
-				console.log(setting);
 				var treeId = '#ztree'+tmp;
-				console.log(treeId);
-				$.fn.zTree.init($(treeId), setting, zNodes);
+				
+				$.ajax( {
+            		type : "POST",
+            		url : getRootPath()+"/api/v1/ztree/childnodes?centerIp="+json[o].id,
+            		async : false,
+            		success : function(data) {
+                		var zNodes = data;
+                		$.fn.zTree.init($(treeId), setting, zNodes);
+                 	},
+            		error :function(data){
+                		result= data;
+            		}
+            	});
+			}
+			
+			$('.tree-header2').click(function(){
+            	showTree();
+       	    });
+		}
 
+		
+		var showTree = function(){
+			var treeHeader = event.target;
+			var treeContent = event.target.nextElementSibling;
+			if(treeContent.style.display != ''){
+				treeContent.style.display = '';
+				treeHeader.style.background = "#263948";
+			}else{
+				treeContent.style.display = 'block';
+				treeHeader.style.background = "#24313e";
 			}
 		}
+
 // function Smearing($object){
 // 	var self = this;
 // 	base(self,LSprite,[]);

@@ -32,7 +32,7 @@ public class GraphOperation {
 				Node node = new Node();
 				node.setId(result.getString("t_ipAddr"));
 				if(USERSYS.equals(result.getString("nodeKind"))){
-					node.setName(result.getString("userSysName")+"("+result.getString("t_phyAddr")+")");
+					node.setName(result.getString("userSysName"));
 					node.setGroup(Integer.parseInt(GraphXmlParser.getSysNodeGroup()));
 					node.setShape(GraphXmlParser.getSysNodeShape());
 					node.setImagePath(GraphXmlParser.getSysNodeImagePath());
@@ -43,7 +43,7 @@ public class GraphOperation {
 					node.setSize(Integer.parseInt(GraphXmlParser.getSysNodeSize()));
 				}
 				else if(ACCESSNODE.equals(result.getString("nodeKind"))){
-					node.setName(result.getString("accessNodeName")+"("+result.getString("t_phyAddr")+")");
+					node.setName(result.getString("accessNodeName"));
 					node.setGroup(Integer.parseInt(GraphXmlParser.getAccessNodeGroup()));
 					node.setShape(GraphXmlParser.getAccessNodeShape());
 					node.setImagePath(GraphXmlParser.getAccessNodeImagePath());
@@ -54,7 +54,7 @@ public class GraphOperation {
 					node.setSize(Integer.parseInt(GraphXmlParser.getAccessNodeSize()));
 				}
 				else{
-					node.setName(result.getString("dataCenterName")+"("+result.getString("t_phyAddr")+")");
+					node.setName(result.getString("dataCenterName"));
 					node.setGroup(Integer.parseInt(GraphXmlParser.getCenterNodeGroup()));
 					node.setShape(GraphXmlParser.getCenterNodeShape());
 					node.setImagePath(GraphXmlParser.getCenterNodeImagePath());

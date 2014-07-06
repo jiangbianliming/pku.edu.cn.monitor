@@ -16,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import pku.edu.cn.Entity.ZtreeNode;
 import pku.edu.cn.conn.MetaData;
@@ -49,24 +50,22 @@ public class Ztree {
 		MetaData meta = new MetaData();
 		ResultSet rs = meta.getMetadata();
 		List<ZtreeNode> list = new ArrayList<ZtreeNode>(); 
-		ZtreeNode rootNode = new ZtreeNode("root","xx","数据中心服务",true,"root","../assets/ico/fy.png");
 		Map<String,Integer> nodeTree = new HashMap<String,Integer>();
-		list.add(rootNode);
 		try {
 			while(rs.next()){
 				ZtreeNode node = new ZtreeNode();
 				if(rs.getString("upipAddr")!=null){
 					if(USERSYS.equals(rs.getString("nodeKind"))){	
 						node.setName("用户系统("+rs.getString("t_phyAddr")+")");
-						node.setOpen(false);
+						node.setOpen(true);
 						node.setStdname("用户系统");
-						node.setIcon("../assets/img/treeicon/yhxt.PNG");
+						node.setIcon("./assets/img/treeicon/yhxt.PNG");
 					}
 					else{
 						node.setName("数据访问节点("+rs.getString("t_phyAddr")+")");
 						node.setOpen(true);
 						node.setStdname("数据访问节点");
-						node.setIcon("../assets/img/treeicon/sjfwjd.PNG");
+						node.setIcon("./assets/img/treeicon/sjfwjd.PNG");
 					}
 					if(nodeTree.containsKey(rs.getString("upipAddr"))){
 						int tmp = (int)nodeTree.get(rs.getString("upipAddr"));					
@@ -83,15 +82,12 @@ public class Ztree {
 					list.add(node);
 				}
 				else{
-					if(!nodeTree.containsKey("root")){
-						nodeTree.put("root", 1);
-					}
-					else{
+					
 						int tmp = (int) nodeTree.get("root");
 						int tmpValue = tmp+1;
 						System.out.println(tmpValue);
 						nodeTree.put("root", tmpValue);
-					}
+					
 					if(MAINCENTER==rs.getInt("maincenter")){
 						node.setName("主数据中心("+rs.getString("t_phyAddr")+")");
 					}
@@ -130,60 +126,20 @@ public class Ztree {
 	@Path("/childnodes")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public String getChildZtree() throws IOException{
+	public String getChildZtree(@QueryParam("centerIp") String cenetrIP) throws IOException{
 		
 		MetaData meta = new MetaData();
-		ResultSet rs = meta.getMetadata();
-		List<ZtreeNode> list = new ArrayList<ZtreeNode>(); 
-		Map<String,Integer> nodeTree = new HashMap<String,Integer>();
-		try {
-			while(rs.next()){
-				ZtreeNode node = new ZtreeNode();
-				if(rs.getString("upipAddr")!=null){
-					if(USERSYS.equals(rs.getString("nodeKind"))){	
-						node.setName(rs.getString("userSysName")+"("+rs.getString("t_phyAddr")+")");
-						node.setOpen(false);
-						node.setStdname("用户系统");
-						node.setIcon("./asset/img/treeicon/yhxt.PNG");
-					}
-					else{
-						node.setName(rs.getString("accessNodeName")+"("+rs.getString("t_phyAddr")+")");
-						node.setOpen(true);
-						node.setStdname("访问节点");
-						node.setIcon("./asset/img/treeicon/sjfwjd.PNG");
-					}
-					if(nodeTree.containsKey(rs.getString("upipAddr"))){
-						int tmp = (int)nodeTree.get(rs.getString("upipAddr"));					
-						int tmpValue = tmp+1;
-						System.out.println(tmpValue);
-						nodeTree.put(rs.getString("upipAddr"), tmpValue);
-					}
-					else{
-						nodeTree.put(rs.getString("upipAddr"),1);
-					}
-					node.setId(rs.getString("t_ipAddr"));
-					node.setpId(rs.getString("upipAddr"));
-					
-					list.add(node);
-				}
-			}
-			Iterator iter = nodeTree.entrySet().iterator();
-			
-			while(iter.hasNext()){
-				Map.Entry entry = (Map.Entry) iter.next();
-				Object key = entry.getKey();
-				Object value = entry.getValue();
-				for(ZtreeNode tmpnode:list){
-					if(key.equals(tmpnode.getId())){
-						tmpnode.setName(tmpnode.getName()+"("+value+")");
-					}
-				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		List<ZtreeNode> childList = new ArrayList<ZtreeNode>();
+		//get accessNode by center id
+		List<ZtreeNode> accessList = meta.getAccessNodeByCenterIp(cenetrIP);
+		childList.addAll(accessList);
+		for(ZtreeNode node:accessList){
+			String aIp = node.getId();
+			List<ZtreeNode> list = meta.getSysNodeByAccessIp(aIp);
+			childList.addAll(list);
 		}
-		JSONArray jsonObject = JSONArray.fromObject(list);
+
+		JSONArray jsonObject = JSONArray.fromObject(childList);
 		return jsonObject.toString();
 	}
 	/** 
@@ -246,7 +202,7 @@ public class Ztree {
 				if(DATACENTER.equals(rs.getString("nodeKind"))){
 					ZtreeNode node = new ZtreeNode();
 					node.setId(rs.getString("t_ipAddr"));
-					node.setName("数据中心");
+					node.setName(rs.getString("dataCenterName"));
 					list.add(node);
 				}
 				
@@ -260,7 +216,8 @@ public class Ztree {
 				Object value = entry.getValue();
 				for(ZtreeNode tmpnode:list){
 					if(key.equals(tmpnode.getId())){
-						tmpnode.setName(tmpnode.getName()+"("+value+")");
+//						tmpnode.setName(tmpnode.getName()+"("+value+")");
+						tmpnode.setName(tmpnode.getName());
 					}
 				}
 			}
