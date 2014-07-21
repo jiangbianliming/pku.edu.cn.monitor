@@ -45,27 +45,8 @@
 						<img class="header-icon1" src="./image/header-icon.png" alt="icon" width="22" height="22"/>日志显示
 						<img class="header-icon2" src="./image/header-icon-1.png" alt="icon" width="22" height="22"/>
 					</div>
-					<div class="log">
-						<span class="num">001</span>
-						<span class="time">23:59:59</span>
-						<span class="log-con">方向海情系统加入全军信息服务中心</span>
-					</div>
-					<div class="log">
-						<span class="num">001</span>
-						<span class="time">23:59:59</span>
-						<span class="log-con">全军信息服务中心向北京战区节点发送应急信息</span>
-					</div>
-					<div class="log">
-						<span class="num">001</span>
-						<span class="time">23:59:59</span>
-						<span class="log-con">战区节点北京区出现故障</span>
-					</div>
-					<div class="log">
-						<span class="num">001</span>
-						<span class="time">23:59:59</span>
-						<span class="log-con">空际情报向全军服务中心查询信息</span>
-					</div>
-
+                    <div class="log-content" id="logs">
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -87,9 +68,18 @@
                 	webSocket.close();
                 } 
             }
-        }  
+        }
 
-    
+        var logContainer = $('#logs');
+        function insertLog(logContent){
+            var div = $('<div></div>');
+            div.addClass("log");
+//            div.append($("<span></span>").addClass("num").text(logContent.num));
+//            div.append($("<span></span>").addClass("time").text(logContent.time));
+            div.append($("<span></span>").addClass("log-con").text(logContent));
+            logContainer.append(div);
+            document.getElementById('logs').scrollTop = document.getElementById('logs').scrollHeight;
+        }
 		function findDataAccess(st, rt) {
 			 var se = new ScriptEngine();
 			 se.setClass("pku.edu.cn.nodeoperation.NodeOperation");
@@ -384,7 +374,69 @@
 // },0);
 // 	}
 // );
-		
+        function main(){
+            backLayer = new LSprite();
+            addChild(backLayer);
+            //加入流星层
+            meteorLayer = new LSprite();
+            addChild(meteorLayer);
+
+            var childSmear = $('#smear').children()[0];
+            console.log(childSmear);
+            childSmear.style.zIndex = -1;
+            console.log("xxx");
+        }
+        function donghua(from,to,color){
+            var nodes = tmp.data.nodes;
+            console.log(to);
+            for(var i=0;i<nodes.length;i++){
+                if(from==nodes[i].id){
+                    console.log(i);
+                    var zuobiaox = (tmp.offsetX + tmp.data.nodes[i].x) * tmp.scaleFactor;
+                    var zuobiaoy = (tmp.offsetY + tmp.data.nodes[i].y) * tmp.scaleFactor;
+                }
+                if(to==nodes[i].id){
+                    console.log(i);
+                    var zuobiaox1 = (tmp.offsetX + tmp.data.nodes[i].x) * tmp.scaleFactor;
+                    var zuobiaoy1 = (tmp.offsetY + tmp.data.nodes[i].y) * tmp.scaleFactor;
+                }
+            }
+            init(10,'smear',maincanvas.width,maincanvas.height,main,LEvent.INIT);
+            var meteorLayer = new LSprite();
+            addChild(meteorLayer);
+            var meteor1 = new LSprite();
+//            meteor1.graphics.drawArc(1,"#ff0000",[zuobiaox,zuobiaoy,3,0,2*Math.PI],true,"#888000");
+            meteor1.graphics.drawArc(1,"#FFFFFF",[zuobiaox,zuobiaoy,3,0,2*Math.PI],true,"#0066FF");
+
+            meteorLayer.addChild(meteor1);
+            LTweenLite.to(meteor1,0.8,{
+                x: zuobiaox1-zuobiaox,
+                y: zuobiaoy1-zuobiaoy,
+                onComplete:function(o){
+                    meteorLayer.removeChild(o);
+                    removeChild(meteorLayer);
+                    $("#smear").empty();
+                }
+            });
+            var count = 1;
+            while(count < 400){
+                setTimeout(function(){
+                    var meteor2 = new LSprite();
+//                    meteor2.graphics.drawArc(2,color,[zuobiaox,zuobiaoy,3-2*count/400,0,2*Math.PI],true,color);
+                    meteor2.graphics.drawArc(2,"#0066FF",[zuobiaox,zuobiaoy,3-2*count/400,0,2*Math.PI],true,"#FFFFFF");
+                    meteor2.alpha = 1;
+                    meteorLayer.addChild(meteor2);
+                    LTweenLite.to(meteor2,0.8,{
+                        x: zuobiaox1-zuobiaox,
+                        y: zuobiaoy1-zuobiaoy,
+                        onComplete:function(o){
+                            meteorLayer.removeChild(o);
+                        }
+                    });
+                },count);
+                count = count +1;
+            }
+        }
 		var wsUrl;
 		if (window.location.protocol == 'https:') {  
 	        wsUrl = 'wss://' + window.location.host + '/monitor/websocket';
@@ -415,7 +467,10 @@
 		function onError(event) {
 			alert(event.data);
 		}
-		var graphic = document.getElementById('graphic');
+
+        var tmp = new Object();
+
+        var graphic = document.getElementById('graphic');
 		var maincanvas = document.getElementById('main');
 		maincanvas.width = graphic.scrollWidth;
 
@@ -476,7 +531,7 @@
 				if(loginfo.success){
 					var sucessinfo = loginfo.success;
 					donghua(sucessinfo.localIp,sucessinfo.remoteIp);
-					insert(sucessinfo.message);
+                    insertLog(sucessinfo.message);
 				}
 				else if(loginfo.failure){
 					var failureinfo = loginfo.failure;
@@ -486,8 +541,8 @@
 							 tmp.data.edges[i].color = 'rgb(105,105,105)';
 				 			 tmp.updateData();
 						}
-					}	
-					insert(failureinfo.message);
+					}
+                    insertLog(failureinfo.message);
 				}
 				else{
 				}
@@ -520,6 +575,7 @@
 				  	}
 			 		}
 				);
+                tmp = cx2;
 		}		
 	}
 

@@ -5,20 +5,20 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import pku.edu.cn.conn.DbConnection;
 
 public class MineThreadListener implements ServletContextListener {
 	static BufferedReader br = null;
     static String line = null;
 	static StringBuffer buf = new StringBuffer();
 //	static String FILENAME = "/var/log/lilu/result.log";
-	private String FILENAME; 
+	static String FILENAME = "/Users/admin/Desktop/test.log";
+
+//	private String FILENAME; 
 //	
 	static String lastLine = null;
 	private Mine thread;
@@ -51,7 +51,7 @@ public class MineThreadListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
-		FILENAME = MineThreadListener.class.getResource("/").getPath() +"pku/edu/cn/logmine/test.log";
+//		FILENAME = MineThreadListener.class.getResource("/").getPath() +"pku/edu/cn/logmine/test.log";
 		String str = null;  
         if (str == null && thread == null) {  
         	try {

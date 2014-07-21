@@ -34,12 +34,12 @@ public class Mine extends Thread{
             newTime = file.lastModified();
                if (newTime != lastModifieTime) {
                 lastModifieTime = newTime;
-                System.out.println("new log appears!.");
+                System.out.println("new log appears!");
             }
             
              try {
 				while ((line = br.readLine()) != null) {
-					 
+					System.out.println(line); 
 					if(!filter.isNeeded(line)){
 						continue;
 					}
