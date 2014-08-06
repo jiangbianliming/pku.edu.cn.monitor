@@ -72,10 +72,11 @@
 
         var logContainer = $('#logs');
         function insertLog(logContent){
+            logContainer.empty();
             var div = $('<div></div>');
             div.addClass("log");
-//            div.append($("<span></span>").addClass("num").text(logContent.num));
-//            div.append($("<span></span>").addClass("time").text(logContent.time));
+            div.append($("<span></span>").addClass("num").text('001'));
+            div.append($("<span></span>").addClass("time").text('test'));
             div.append($("<span></span>").addClass("log-con").text(logContent));
             logContainer.append(div);
             document.getElementById('logs').scrollTop = document.getElementById('logs').scrollHeight;
@@ -375,16 +376,16 @@
 // 	}
 // );
         function main(){
-            backLayer = new LSprite();
-            addChild(backLayer);
-            //加入流星层
-            meteorLayer = new LSprite();
-            addChild(meteorLayer);
+            // backLayer = new LSprite();
+            // addChild(backLayer);
+            // //加入流星层
+            // meteorLayer = new LSprite();
+            // addChild(meteorLayer);
 
-            var childSmear = $('#smear').children()[0];
-            console.log(childSmear);
-            childSmear.style.zIndex = -1;
-            console.log("xxx");
+            // var childSmear = $('#smear').children()[0];
+            // console.log(childSmear);
+            // childSmear.style.zIndex = -1;
+            // console.log("xxx");
         }
         function donghua(from,to,color){
             var nodes = tmp.data.nodes;

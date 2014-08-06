@@ -15,9 +15,9 @@ public class MineThreadListener implements ServletContextListener {
 	static BufferedReader br = null;
     static String line = null;
 	static StringBuffer buf = new StringBuffer();
-//	static String FILENAME = "/var/log/lilu/result.log";
-	static String FILENAME = "/Users/admin/Desktop/test.log";
-
+	static String FILENAME = "/var/log/lilu/result.log";
+//	static String FILENAME = "/Users/admin/Desktop/test.log";
+//	static String FILENAME = "C:\\Users\\Administrator\\Desktop\\test.log";
 //	private String FILENAME; 
 //	
 	static String lastLine = null;

@@ -27,6 +27,7 @@ public class AminationHandler extends ServerListenerAdapter {
 				try {
 					System.out.println("会话打开");
 					session.getBasicRemote().sendText(json);
+					System.out.println("log send out-----------------");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -39,11 +39,11 @@ public class Mine extends Thread{
             
              try {
 				while ((line = br.readLine()) != null) {
-					System.out.println(line); 
 					if(!filter.isNeeded(line)){
 						continue;
 					}
 					String dataJson = parser.parseLog(line);
+					System.out.println("test-----------------------");
 					System.out.println(dataJson);
 					Notifier.getNotifier().fireAmination(dataJson);
 				}
@@ -52,7 +52,7 @@ public class Mine extends Thread{
 				e1.printStackTrace();
 			} 
             try {
-                Thread.sleep(500);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } 
